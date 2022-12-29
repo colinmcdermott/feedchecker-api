@@ -6,8 +6,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     // Get the URL of the RSS feed from the query parameters
     const { feed } = req.query;
 
-    // Make a HEAD request to the RSS feed URL
-    const response = await fetch(`${feed}`, { method: 'HEAD' });
+    // Make a GET request to the RSS feed URL
+    const response = await fetch(`${feed}`);
 
     // Check the response status
     if (response.status !== 200) {
