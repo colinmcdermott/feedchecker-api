@@ -18,7 +18,10 @@ const FeedCheckForm: React.FC = () => {
           setChange('Feed size unchanged');
         } else {
           setChange('New feed size');
-          document.getElementById('webSubPing').src = `https://websub-ping-tool.pages.dev/?feed=${hubURL}&auto=true`;
+          const iframe = document.getElementById('webSubPing');
+          if (iframe) {
+            iframe.src = `https://websub-ping-tool.pages.dev/?feed=${hubURL}&auto=true`;
+          }
         }
       })
       .catch((error) => {
@@ -39,7 +42,10 @@ const FeedCheckForm: React.FC = () => {
             setChange('Feed size unchanged');
           } else {
             setChange('New feed size');
-            document.getElementById('webSubPing').src = `https://websub-ping-tool.pages.dev/?feed=${hubURL}&auto=true`;
+            const iframe = document.getElementById('webSubPing');
+            if (iframe) {
+              iframe.src = `https://websub-ping-tool.pages.dev/?feed=${hubURL}&auto=true`;
+            }
           }
         })
         .catch((error) => {
@@ -59,6 +65,7 @@ const FeedCheckForm: React.FC = () => {
           name='hub.url'
           placeholder='https://example.com/feed/'
           pattern='https://.*'
+          size='38'
           id='hubURL'
           required
           value={hubURL}
@@ -68,20 +75,19 @@ const FeedCheckForm: React.FC = () => {
       </form>
 
       {loading ? (
-        <div id='loading'>Starting...</div>
-      ) : (
-        <div id='results'>{results}</div>
-      )}
-
-      <section className='statsWindow'>
-        <div id='change'>{change}</div>
-        <div id='additional'>{additional}</div>
-      </section>
-    </main>
-
-    <iframe width='0' height='0' id='webSubPing' />
-  );
-};
-
-export default FeedCheckForm;
-
+        <div id='loading'>Starting...      ) : (
+          <div id='results'>{results}</div>
+        )}
+  
+        <section className='statsWindow'>
+          <div id='change'>{change}</div>
+          <div id='additional'>{additional}</div>
+        </section>
+      </main>
+  
+      <iframe width='0' height='0' id='webSubPing' />
+    );
+  };
+  
+  export default FeedCheckForm;
+  
