@@ -9,7 +9,7 @@ function FeedChecker() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
-    const response = await fetch(`/api/size=${hubURL}`);
+    const response = await fetch(`/api/size?feed=${hubURL}`);
     const data = await response.json();
     setFeedSize(data.size);
     setLoading(false);
@@ -17,7 +17,7 @@ function FeedChecker() {
 
   useEffect(() => {
     const interval = setInterval(async () => {
-      const response = await fetch(`/api/size=${hubURL}`);
+      const response = await fetch(`/api/size?feed=${hubURL}`);
       const data = await response.json();
       if (data.size !== feedSize) {
         setChange('New feed size');
