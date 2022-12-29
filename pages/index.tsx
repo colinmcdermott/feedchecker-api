@@ -9,14 +9,13 @@ const FeedCheckForm: React.FC = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
+  
     setLoading(true);
-
+  
     try {
       const response = await fetch(`/api/size=${hubURL}`);
       const data = await response.json();
       setResults(data);
-      setLoading(false);
       if (data === change) {
         setChange('Feed size unchanged');
       } else {
@@ -25,9 +24,12 @@ const FeedCheckForm: React.FC = () => {
         document.getElementById('webSubPing')?.setAttribute('src', additional);
       }
     } catch (error) {
-      setLoading('Error: ' + error.message);
+      setResults('Error: ' + error.message);
     }
+  
+    setLoading(false);
   };
+  
 
   useEffect(() => {
     const interval = setInterval(() => {
