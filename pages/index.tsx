@@ -10,15 +10,23 @@ const FeedCheckForm: React.FC = () => {
   useEffect(() => {
     const interval = setInterval(async () => {
       setLoading(true);
-      const response = await fetch(`/api/size=${hubURL}`);
-      const data = await response.json();
-      if (results === data) {
-        setChange('Feed size unchanged');
-      } else {
-        setResults(data);
-        setChange('New feed size');
-        setAdditional(`Loaded new URL: https://websub-ping-tool.pages.dev/?feed=${hubURL}&auto=true`);
-        document.getElementById('webSubPing')?.setAttribute('src', `https://websub-ping-tool.pages.dev/?feed=${hubURL}&auto=true`);
+      try {
+        const response = await fetch(`/api/size=${hubURL}`);
+        if (!response.ok) {
+          throw new Error(response.statusText);
+        }
+        const data = await response.json();
+        console.log(`hubURL: ${hubURL}`);
+        if (results === data) {
+          setChange('Feed size unchanged');
+        } else {
+          setResults(data);
+          setChange('New feed size');
+          setAdditional(`Loaded new URL: https://websub-ping-tool.pages.dev/?feed=${hubURL}&auto=true`);
+          document.getElementById('webSubPing')?.setAttribute('src', `https://websub-ping-tool.pages.dev/?feed=${hubURL}&auto=true`);
+        }
+      } catch (error) {
+        console.error(error);
       }
       setLoading(false);
     }, 30000);
@@ -28,11 +36,19 @@ const FeedCheckForm: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
-    const response = await fetch(`/api/size=${hubURL}`);
-    const data = await response.json();
-    setResults(data);
+    try {
+      const response = await fetch(`/api/size=${hubURL}`);
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+      const data = await response.json();
+      setResults(data);
+    } catch (error) {
+      console.error(error);
+    }
     setLoading(false);
   };
+
 
   return (
     <form className='feedCheckForm' onSubmit={handleSubmit}>
