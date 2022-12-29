@@ -42,12 +42,12 @@ const FeedCheckForm: React.FC = () => {
         name='hub.url'
         placeholder='https://example.com/feed/'
         pattern='https://.*'
-        size='38'
         id='hubURL'
         required
         value={hubURL}
         onChange={event => setHubURL(event.target.value)}
       />
+
       <input type='submit' value='Submit' id='submit' />
       {loading && <loading id='loading'>Loading...</loading>}
       {results && (
