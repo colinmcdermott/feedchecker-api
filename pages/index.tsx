@@ -24,12 +24,11 @@ const FeedCheckForm: React.FC = () => {
         document.getElementById('webSubPing')?.setAttribute('src', additional);
       }
     } catch (error) {
-      setResults('Error: ' + error.message);
+      setResults('Error: ' + (error as Error).message);
     }
   
     setLoading(false);
-  };
-  
+  };  
 
   useEffect(() => {
     const interval = setInterval(() => {
