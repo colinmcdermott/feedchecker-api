@@ -49,13 +49,13 @@ const FeedCheckForm: React.FC = () => {
       />
 
       <input type='submit' value='Submit' id='submit' />
-      {loading && <loading id='loading'>Loading...</loading>}
+      {loading && <div id='loading'>Loading...</div>}
       {results && (
         <>
-          <results id='results'>{results}</results>
+          <div id='results'>{results}</div>
           <section className='statsWindow'>
-            <change id='change'>{change}</change>
-            {additional && <additional id='additional'>{additional}</additional>}
+            <div id='change'>{change}</div>
+            {additional && <div id='additional'>{additional}</div>}
           </section>
         </>
       )}
