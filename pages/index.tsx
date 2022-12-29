@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import '../styles/style.css'
 
 function FeedChecker() {
   const [hubURL, setHubURL] = useState('');
