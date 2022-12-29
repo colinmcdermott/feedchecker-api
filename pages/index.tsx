@@ -1,41 +1,38 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const FeedCheckForm: React.FC = () => {
   const [hubURL, setHubURL] = useState('');
   const [results, setResults] = useState('');
-  const [loading, setLoading] = useState(false);
   const [change, setChange] = useState('');
   const [additional, setAdditional] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      setLoading(true);
+      const response = await fetch(`/api/size=${hubURL}`);
+      const data = await response.json();
+      if (results === data) {
+        setChange('Feed size unchanged');
+      } else {
+        setResults(data);
+        setChange('New feed size');
+        setAdditional(`Loaded new URL: https://websub-ping-tool.pages.dev/?feed=${hubURL}&auto=true`);
+        document.getElementById('webSubPing')?.setAttribute('src', `https://websub-ping-tool.pages.dev/?feed=${hubURL}&auto=true`);
+      }
+      setLoading(false);
+    }, 30000);
+    return () => clearInterval(interval);
+  }, [hubURL, results]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-  
     setLoading(true);
-  
-    try {
-      const response = await fetch(`/api/size=${hubURL}`);
-      const data = await response.json();
-      setResults(data);
-      if (data === change) {
-        setChange('Feed size unchanged');
-      } else {
-        setChange('New feed size');
-        setAdditional(`https://websub-ping-tool.pages.dev/?feed=${hubURL}&auto=true`);
-        document.getElementById('webSubPing')?.setAttribute('src', additional);
-      }
-    } catch (error) {
-      setResults('Error: ' + (error as Error).message);
-    }
-  
+    const response = await fetch(`/api/size=${hubURL}`);
+    const data = await response.json();
+    setResults(data);
     setLoading(false);
-  };  
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      handleSubmit(event);
-    }, 30000);
-    return () => clearInterval(interval);
-  }, []);
+  };
 
   return (
     <form className='feedCheckForm' onSubmit={handleSubmit}>
@@ -52,47 +49,18 @@ const FeedCheckForm: React.FC = () => {
         onChange={event => setHubURL(event.target.value)}
       />
       <input type='submit' value='Submit' id='submit' />
+      {loading && <loading id='loading'>Loading...</loading>}
+      {results && (
+        <>
+          <results id='results'>{results}</results>
+          <section className='statsWindow'>
+            <change id='change'>{change}</change>
+            {additional && <additional id='additional'>{additional}</additional>}
+          </section>
+        </>
+      )}
     </form>
   );
 };
 
-const Results: React.FC = () => {
-  const [results, setResults] = useState('');
-
-  return <results id='results'>{results}</results>;
-};
-
-const Loading: React.FC = () => {
-  const [loading, setLoading] = useState(false);
-
-  return <loading id='loading'>{loading ? 'Loading...' : ''}</loading>;
-};
-
-const Change: React.FC = () => {
-  const [change, setChange] = useState('');
-
-  return <change id='change'>{change}</change>;
-};
-
-const Additional: React.FC = () => {
-  const [additional, setAdditional] = useState('');
-
-  return <additional id='additional'>{additional}</additional>;
-};
-
-const App: React.FC = () => {
-  return (
-    <main>
-      <FeedCheckForm />
-      <Results />
-      <Loading />
-      <section className="statsWindow">
-        <Change />
-        <Additional />
-      </section>
-    </main>
-    <iframe width="0" height="0" id="webSubPing"></iframe>
-  );
-};
-
-export default App;
+export default FeedCheckForm;
