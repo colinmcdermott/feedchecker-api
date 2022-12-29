@@ -16,11 +16,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       return;
     }
 
-    // Get the Content-Length header from the response
-    const contentLength = response.headers.get('Content-Length');
+    // Get the content of the RSS feed as a string
+    const content = await response.text();
 
-    // Return the Content-Length in JSON
-    res.json({ size: contentLength });
+    // Calculate the size of the content
+    const size = content.length;
+
+    // Return the size in JSON
+    res.json({ size });
   } catch (error) {
     // If there was an error, return a server error
     res.status(500).json({ error: 'Internal server error' });
