@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Head from 'next/head';
 
 function FeedChecker() {
   const [hubURL, setHubURL] = useState('');
@@ -34,6 +35,9 @@ function FeedChecker() {
 
   return (
     <main>
+      <Head>
+        <title>Feed Checker</title>
+      </Head>
       <form className='feedCheckForm' onSubmit={handleSubmit}>
         <label htmlFor='hubURL'>RSS Feed URL:</label>
         <input
