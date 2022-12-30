@@ -50,7 +50,7 @@ function FeedChecker() {
       </form>
 
       {loading && <div id='loading'><p>Connecting to API...</p></div>}
-      {feedSize && <div id='results'><p>API Success! Feed size: <pre>{feedSize} B</pre> - Check interval: <pre>30 seconds</pre> - <a href="https://pubsubhubbub.appspot.com/topic-details?hub.url=${hubURL}" target="_blank">Debug in WebSub</a></p></div>}
+      {feedSize && <div id='results'><p>API Success! Feed size: <pre>{feedSize} B</pre> - Check interval: <pre>30 seconds</pre> - <a href="https://pubsubhubbub.appspot.com/topic-details?hub.url=${hubURL}" target="_blank">Debug feed</a></p></div>}
 
       <section className='statsWindow'>
         <div id='change'>{change}</div>
