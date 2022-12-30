@@ -32,9 +32,6 @@ function FeedChecker() {
     return () => clearInterval(interval);
   }, [hubURL, feedSize]);
 
-  const [timestamp, restOfString] = change.split(' ');
-  const formattedChange = [<pre>{timestamp}</pre>, restOfString].join(' ');
-
   return (
     <main>
       <form className='feedCheckForm' onSubmit={handleSubmit}>
@@ -56,7 +53,7 @@ function FeedChecker() {
       {feedSize && <div id='results'><p><strong>API Success!</strong> Feed size: <pre>{feedSize}</pre> - Check interval: <pre>30s</pre></p></div>}
 
       <section className='statsWindow'>
-        <div id='change'>{formattedChange}</div>
+        <div id='change'>{change}</div>
       </section>
 
       <iframe width='0' height='0' id='webSubPing'></iframe>
