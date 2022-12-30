@@ -41,7 +41,6 @@ function FeedChecker() {
       </Head>
     </main>
   );
-}
 
   return (
     <main>
