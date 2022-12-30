@@ -20,7 +20,7 @@ function FeedChecker() {
       const response = await fetch(`/api/size?feed=${hubURL}`);
       const data = await response.json();
       if (data.size !== feedSize) {
-        setChange('New feed size');
+        setChange('New feed size - Ping sent!');
         document.getElementById('webSubPing')?.setAttribute(
           'src',
           `https://websub-ping-tool.pages.dev/?feed=${hubURL}&auto=true`
