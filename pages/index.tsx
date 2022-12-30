@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Head } from 'next/document';
 
 function FeedChecker() {
   const [hubURL, setHubURL] = useState('');
@@ -31,6 +32,16 @@ function FeedChecker() {
     }, 30000);
     return () => clearInterval(interval);
   }, [hubURL, feedSize]);
+
+  return (
+    <main>
+      <Head>
+        <title>Node Feed Checker - Colin McDermott</title>
+        <meta name="robots" content="noindex,nofollow"></meta>
+      </Head>
+    </main>
+  );
+}
 
   return (
     <main>
