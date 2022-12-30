@@ -39,11 +39,6 @@ function FeedChecker() {
         <title>Node Feed Checker - Colin McDermott</title>
         <meta name="robots" content="noindex,nofollow"></meta>
       </Head>
-    </main>
-  );
-
-  return (
-    <main>
       <form className='feedCheckForm' onSubmit={handleSubmit}>
         <label htmlFor='hubURL'>RSS Feed URL:</label>
         <input
