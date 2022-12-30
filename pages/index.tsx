@@ -50,7 +50,7 @@ function FeedChecker() {
       </form>
 
       {loading && <div id='loading'>Starting...</div>}
-      {feedSize && <div id='results'>{feedSize}</div>}
+      {feedSize && <div id='results'>Success! Feed size: {feedSize}</div>}
 
       <section className='statsWindow'>
         <div id='change'>{change}</div>
