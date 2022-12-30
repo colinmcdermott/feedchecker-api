@@ -49,8 +49,8 @@ function FeedChecker() {
         <input type='submit' value='Submit' id='submit' />
       </form>
 
-      {loading && <div id='loading'>Starting...</div>}
-      {feedSize && <div id='results'>Success! Feed size: {feedSize}</div>}
+      {loading && <div id='loading'>Starting</div>}
+      {feedSize && <div id='results'>API Success! Feed size: {feedSize}</div>}
 
       <section className='statsWindow'>
         <div id='change'>{change}</div>
