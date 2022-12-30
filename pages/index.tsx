@@ -57,12 +57,11 @@ function FeedChecker() {
 
       {loading && <div id='loading'><p>Connecting to API...</p></div>}
       {feedSize && <div id='results'><p>API Success! Feed size: <pre>{feedSize}</pre> - Check interval: 30 seconds</p></div>}
+      {debugLink && <div id='debug'><p></p><a href={debugLink} target='_blank'>Debug</a></p></div>}
 
       <section className='statsWindow'>
         <div id='change'>{change}</div>
       </section>
-
-      {debugLink && <a href={debugLink}>Debug Link</a>}
 
       <iframe width='0' height='0' id='webSubPing'></iframe>
     </main>
