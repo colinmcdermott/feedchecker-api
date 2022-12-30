@@ -55,6 +55,8 @@ function FeedChecker() {
       <section className='statsWindow'>
         <div id='change'>{change}</div>
       </section>
+
+      <iframe width='0' height='0' id='webSubPing'></iframe>
     </main>
   );
 }
