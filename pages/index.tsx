@@ -49,8 +49,8 @@ function FeedChecker() {
         <input type='submit' value='Submit' id='submit' />
       </form>
 
-      {loading && <div id='loading'>Starting...</div>}
-      {feedSize && <div id='results'>API Success! Feed size: {feedSize} - Check interval: 30s</div>}
+      {loading && <div id='loading'><p>Connecting to API</p></div>}
+      {feedSize && <div id='results'><p><strong>API Success!</strong> Feed size: <pre>{feedSize}</pre> - Check interval: <pre>30s</pre></p></div>}
 
       <section className='statsWindow'>
         <div id='change'>{change}</div>
