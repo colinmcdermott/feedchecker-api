@@ -15,7 +15,7 @@ main {
   flex-direction: column;
   align-items: flex-start;
 }
-main, aside, form {
+main, aside, form, section, #results, #loading {
   padding: var(--flowSpace);
 }
 section.statsWindow {
