@@ -20,13 +20,13 @@ function FeedChecker() {
       const response = await fetch(`/api/size?feed=${hubURL}`);
       const data = await response.json();
       if (data.size !== feedSize) {
-        setChange(`New feed size - Ping sent! Timestamp: ${new Date().toGMTString()}`);
+        setChange(`New feed size - Ping sent! Timestamp: ${new Date().toUTCString()}`);
         document.getElementById('webSubPing')?.setAttribute(
           'src',
           `https://websub-ping-tool.pages.dev/?feed=${hubURL}&auto=true`
         );
       } else {
-        setChange(`Feed size unchanged - Timestamp: ${new Date().toGMTString()}`);
+        setChange(`Feed size unchanged - Timestamp: ${new Date().toUTCString()}`);
       }
     }, 30000);
     return () => clearInterval(interval);
