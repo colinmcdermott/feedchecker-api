@@ -20,13 +20,13 @@ function FeedChecker() {
       const response = await fetch(`/api/size?feed=${hubURL}`);
       const data = await response.json();
       if (data.size !== feedSize) {
-        setChange(`New feed size - Ping sent! ${new Date().toUTCString()}`);
+        setChange(`New feed size - Ping sent! - ${new Date().toUTCString()}`);
         document.getElementById('webSubPing')?.setAttribute(
           'src',
           `https://websub-ping-tool.pages.dev/?feed=${hubURL}&auto=true`
         );
       } else {
-        setChange(`Feed size unchanged ${new Date().toUTCString()}`);
+        setChange(`Feed size unchanged - ${new Date().toUTCString()}`);
       }
     }, 30000);
     return () => clearInterval(interval);
@@ -49,8 +49,8 @@ function FeedChecker() {
         <input type='submit' value='Submit' id='submit' />
       </form>
 
-      {loading && <div id='loading'><p>Connecting to API</p></div>}
-      {feedSize && <div id='results'><p><strong>API Success!</strong> Feed size: <pre>{feedSize}</pre> - Check interval: <pre>30s</pre></p></div>}
+      {loading && <div id='loading'><p>Connecting to API...</p></div>}
+      {feedSize && <div id='results'><p>API Success! Feed size: <pre>{feedSize}B</pre> - Check interval: <pre>30 seconds</pre></p></div>}
 
       <section className='statsWindow'>
         <div id='change'>{change}</div>
