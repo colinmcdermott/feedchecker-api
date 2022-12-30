@@ -38,7 +38,7 @@ function FeedChecker() {
   return (
     <main>
       <Head>
-        <title>Node Feed Checker - Colin McDermott</title>
+        <title>Node Feed Checker</title>
       </Head>
       <form className='feedCheckForm' onSubmit={handleSubmit}>
         <label htmlFor='hubURL'>RSS Feed URL:</label>
