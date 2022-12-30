@@ -6,6 +6,7 @@ function FeedChecker() {
   const [feedSize, setFeedSize] = useState(null);
   const [loading, setLoading] = useState(false);
   const [change, setChange] = useState('');
+  const [debugLink, setDebugLink] = useState('');
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -14,6 +15,7 @@ function FeedChecker() {
     const data = await response.json();
     setFeedSize(data.size);
     setLoading(false);
+    setDebugLink(`https://pubsubhubbub.appspot.com/topic-details?hub.url=${hubURL}`);
   };
 
   useEffect(() => {
@@ -59,6 +61,8 @@ function FeedChecker() {
       <section className='statsWindow'>
         <div id='change'>{change}</div>
       </section>
+
+      {debugLink && <a href={debugLink}>Debug Link</a>}
 
       <iframe width='0' height='0' id='webSubPing'></iframe>
     </main>
