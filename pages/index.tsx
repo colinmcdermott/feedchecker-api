@@ -15,6 +15,8 @@ function FeedChecker() {
     setLoading(false);
   };
 
+  const [timestamp, setTimestamp] = useState('');
+
   useEffect(() => {
     const interval = setInterval(async () => {
       const response = await fetch(`/api/size?feed=${hubURL}`);
@@ -28,6 +30,10 @@ function FeedChecker() {
       } else {
         setChange('Feed size unchanged');
       }
+
+      // Update the timestamp
+      const currentTimestamp = new Date().toLocaleString();
+      setTimestamp(currentTimestamp);
     }, 30000);
     return () => clearInterval(interval);
   }, [hubURL, feedSize]);
@@ -52,9 +58,11 @@ function FeedChecker() {
       {loading && <div id='loading'>Starting...</div>}
       {feedSize && <div id='results'>API Success! Feed size: {feedSize}</div>}
 
-      <section className='statsWindow'>
-        <div id='change'>{change}</div>
-      </section>
+    <section className='statsWindow'>
+      <div id='change'>{change}</div>
+      {/* Display the timestamp */}
+      <div id='timestamp'>{timestamp}</div>
+    </section>
 
       <iframe width='0' height='0' id='webSubPing'></iframe>
     </main>
