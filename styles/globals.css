@@ -45,6 +45,7 @@ input, label {
 }
 input[type=url] {
   min-height:30px;
+  min-width:275px;
   }
 input[type=submit] {
   background-color: black;
