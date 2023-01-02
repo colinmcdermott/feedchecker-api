@@ -30,6 +30,10 @@ function FeedChecker() {
           'src',
           `https://websub-ping-tool.pages.dev/?feed=${hubURL}&auto=true`
         );
+        document.getElementById('gscPing')?.setAttribute(
+          'src',
+          `https://www.google.com/ping?sitemap=${hubURL}`
+        );
         setLastPing(new Date().toUTCString());
       } else {
         setChange(`Feed size unchanged - ${new Date().toUTCString()}`);
@@ -75,6 +79,8 @@ function FeedChecker() {
       {debugLink && <div id='debug'><p><a href={debugLink} target='_blank'>Debug</a></p></div>}
 
       <iframe width='0' height='0' id='webSubPing'></iframe>
+      <iframe width='0' height='0' id='gscPing'></iframe>
+
     </main>
   );
 }
