@@ -7,6 +7,7 @@ function FeedChecker() {
   const [loading, setLoading] = useState(false);
   const [change, setChange] = useState('');
   const [debugLink, setDebugLink] = useState('');
+  const [lastPing, setLastPing] = useState('');
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -29,6 +30,7 @@ function FeedChecker() {
           'src',
           `https://websub-ping-tool.pages.dev/?feed=${hubURL}&auto=true`
         );
+        setLastPing(new Date().toUTCString());
       } else {
         setChange(`Feed size unchanged - ${new Date().toUTCString()}`);
       }
@@ -61,6 +63,13 @@ function FeedChecker() {
 
       <section className='statsWindow'>
         <div id='change'>{change}</div>
+        {lastPing ? (
+          <div id='lastPing'>
+            Last ping sent: {lastPing}
+          </div>
+        ) : (
+          <div id='lastPing'></div>
+        )}
       </section>
 
       {debugLink && <div id='debug'><p><a href={debugLink} target='_blank'>Debug</a></p></div>}
