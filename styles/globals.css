@@ -69,7 +69,7 @@ summary:hover {
 pre {
   display:inline;
 }
-iframe#webSubPing {
+iframe {
   border:none;
   }
 @media screen and (max-width: 650px) {
