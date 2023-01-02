@@ -66,9 +66,6 @@ summary:hover {
   text-decoration:underline;
   cursor:pointer;
 }
-pre {
-  display:inline;
-}
 iframe {
   border:none;
   }
