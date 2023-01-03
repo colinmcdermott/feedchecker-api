@@ -25,7 +25,7 @@ function FeedChecker() {
       const data = await response.json();
       if (data.size !== feedSize) {
         setFeedSize(data.size);
-        setChange(`New feed size - Ping sent! - ${new Date().toUTCString()}`);
+        setChange(`New feed size - Ping sent! - <time>${new Date().toUTCString()}</time>`);
         document.getElementById('webSubPing')?.setAttribute(
           'src',
           `https://websub-ping-tool.pages.dev/?feed=${hubURL}&auto=true`
@@ -36,7 +36,7 @@ function FeedChecker() {
         );
         setLastPing(new Date().toUTCString());
       } else {
-        setChange(`Feed size unchanged - ${new Date().toUTCString()}`);
+        setChange(`Feed size unchanged - <time>${new Date().toUTCString()}</time>`);
       }
     }, 30000);
     return () => clearInterval(interval);
