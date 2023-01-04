@@ -3,7 +3,7 @@ import Head from 'next/head';
 
 function FeedChecker() {
   const [hubURL, setHubURL] = useState('');
-  const [feedSize, setFeedSize] = useState(-1); // initialize feedSize to -1
+  const [feedSize, setFeedSize] = useState(null);
   const [loading, setLoading] = useState(false);
   const [change, setChange] = useState('');
   const [debugLink, setDebugLink] = useState('');
@@ -20,30 +20,27 @@ function FeedChecker() {
   };
 
   useEffect(() => {
-    if (hubURL) { // only set up the interval if hubURL is not an empty string
-      const interval = setInterval(async () => {
-        const response = await fetch(`/api/size?feed=${hubURL}`);
-        const data = await response.json();
-        if (feedSize !== null && data.size !== feedSize) {
-          // update feedSize and run the rest of the effect logic
-          setFeedSize(data.size);
-          setChange(`New feed size - Ping sent! - ${new Date().toUTCString()}`);
-          document.getElementById('webSubPing')?.setAttribute(
-            'src',
-            `https://websub-ping-tool.pages.dev/?feed=${hubURL}&auto=true`
-          );
-          document.getElementById('gscPing')?.setAttribute(
-            'src',
-            `https://www.google.com/ping?sitemap=${hubURL}`
-          );
-          setLastPing(new Date().toUTCString());
-        } else {
-          setChange(`Feed size unchanged - ${new Date().toUTCString()}`);
-        }
-      }, 30000);
-      return () => clearInterval(interval);
-    }
-  }, [hubURL]);  
+    const interval = setInterval(async () => {
+      const response = await fetch(`/api/size?feed=${hubURL}`);
+      const data = await response.json();
+      if (data.size !== feedSize) {
+        setFeedSize(data.size);
+        setChange(`New feed size - Ping sent! - ${new Date().toUTCString()}`);
+        document.getElementById('webSubPing')?.setAttribute(
+          'src',
+          `https://websub-ping-tool.pages.dev/?feed=${hubURL}&auto=true`
+        );
+        document.getElementById('gscPing')?.setAttribute(
+          'src',
+          `https://www.google.com/ping?sitemap=${hubURL}`
+        );
+        setLastPing(new Date().toUTCString());
+      } else {
+        setChange(`Feed size unchanged - ${new Date().toUTCString()}`);
+      }
+    }, 30000);
+    return () => clearInterval(interval);
+  }, [hubURL, feedSize]);
 
   return (
     <main>
@@ -66,12 +63,7 @@ function FeedChecker() {
       </form>
 
       {loading && <div id='loading'><p>Connecting to API...</p></div>}
-
-      {(feedSize !== -1 && feedSize !== null) && (
-        <div id='results'>
-          <p>API Success! Feed size: {feedSize} - Check interval: 30 seconds</p>
-        </div>
-      )}
+      {feedSize && <div id='results'><p>API Success! Feed size: {feedSize} - Check interval: 30 seconds</p></div>}
 
       <section className='statsWindow'>
         <div id='change'>{change}</div>
