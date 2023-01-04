@@ -20,27 +20,29 @@ function FeedChecker() {
   };
 
   useEffect(() => {
-    const interval = setInterval(async () => {
-      const response = await fetch(`/api/size?feed=${hubURL}`);
-      const data = await response.json();
-      if (data.size !== feedSize) {
-        setFeedSize(data.size);
-        setChange(`New feed size - Ping sent! - ${new Date().toUTCString()}`);
-        document.getElementById('webSubPing')?.setAttribute(
-          'src',
-          `https://websub-ping-tool.pages.dev/?feed=${hubURL}&auto=true`
-        );
-        document.getElementById('gscPing')?.setAttribute(
-          'src',
-          `https://www.google.com/ping?sitemap=${hubURL}`
-        );
-        setLastPing(new Date().toUTCString());
-      } else {
-        setChange(`Feed size unchanged - ${new Date().toUTCString()}`);
-      }
-    }, 30000);
-    return () => clearInterval(interval);
-  }, [hubURL, feedSize]);
+    if (feedSize !== null) { // only set up the interval if feedSize is not null
+      const interval = setInterval(async () => {
+        const response = await fetch(`/api/size?feed=${hubURL}`);
+        const data = await response.json();
+        if (data.size !== feedSize) {
+          setFeedSize(data.size);
+          setChange(`New feed size - Ping sent! - ${new Date().toUTCString()}`);
+          document.getElementById('webSubPing')?.setAttribute(
+            'src',
+            `https://websub-ping-tool.pages.dev/?feed=${hubURL}&auto=true`
+          );
+          document.getElementById('gscPing')?.setAttribute(
+            'src',
+            `https://www.google.com/ping?sitemap=${hubURL}`
+          );
+          setLastPing(new Date().toUTCString());
+        } else {
+          setChange(`Feed size unchanged - ${new Date().toUTCString()}`);
+        }
+      }, 30000);
+      return () => clearInterval(interval);
+    }
+  }, [feedSize, hubURL]);
 
   return (
     <main>
