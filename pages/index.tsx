@@ -3,7 +3,7 @@ import Head from 'next/head';
 
 function FeedChecker() {
   const [hubURL, setHubURL] = useState('');
-  const [feedSize, setFeedSize] = useState(null);
+  const [feedSize, setFeedSize] = useState(-1); // initialize feedSize to -1
   const [loading, setLoading] = useState(false);
   const [change, setChange] = useState('');
   const [debugLink, setDebugLink] = useState('');
