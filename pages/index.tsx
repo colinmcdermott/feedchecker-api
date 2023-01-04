@@ -40,7 +40,7 @@ function FeedChecker() {
       }
     }, 30000);
     return () => clearInterval(interval);
-  }, [hubURL, feedSize]);
+  }, [hubURL]);
 
   return (
     <main>
