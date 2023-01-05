@@ -4,10 +4,13 @@ import express from 'express';
 import next from 'next';
 
 const dev = process.env.NODE_ENV !== 'production';
-const app = next({ dev });
-const handle = app.getRequestHandler();
 
-app.prepare().then(() => {
+async function startServer() {
+  const app = next({ dev });
+  const handle = app.getRequestHandler();
+
+  await app.prepare();
+
   const server = express();
 
   server.get('/api/submit-feed', (req: NextApiRequest, res: NextApiResponse) => {
@@ -38,4 +41,6 @@ app.prepare().then(() => {
     if (err) throw err;
     console.log('> Ready on http://localhost:3000');
   });
-});
+}
+
+startServer();
