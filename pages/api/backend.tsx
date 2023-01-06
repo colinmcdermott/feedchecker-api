@@ -21,7 +21,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const data = await response.json();
 
     // Check if the feed size is already stored in memory
-    if (feedSizes.has(feed)) {
+    if (feedSizes.has(feed as string)) {
         // If the feed size is already stored, compare it with the current size
         const storedSize = feedSizes.get(feed);
         if (storedSize !== data.size) {
