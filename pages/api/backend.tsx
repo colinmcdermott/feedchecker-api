@@ -21,6 +21,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const data = await response.json();
 
     // Check if the feed size is already stored in memory
+    let success = true; // assume the pings were successful unless an error occurs
     if (feedSizes.has(feed as string)) {
         // If the feed size is already stored, compare it with the current size
         const storedSize = feedSizes.get(feed as string);
@@ -28,8 +29,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                         // If the sizes are different, update the stored size and ping the WebSub and GooglePing APIs
                         feedSizes.set(feed as string, data.size);
                         console.log(`Sending pings for new feed size: ${data.size}`);
-                        await fetch(`https://nodefeedv.vercel.app/api/websub-ping?feed=${feed}`);
-                        await fetch(`https://nodefeedv.vercel.app/api/google-ping?sitemap=${feed}`);
+                        try {
+                          await fetch(`https://nodefeedv.vercel.app/api/websub-ping?feed=${feed}`);
+                          await fetch(`https://nodefeedv.vercel.app/api/google-ping?sitemap=${feed}`);
+                        } catch (error) {
+                          // if an error occurs, set success to false
+                          success = false;
+                        }
                     } else {
                         console.log(`Feed size is the same: ${data.size}`);
                     }
@@ -42,8 +48,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 // Print the size in the console
                 console.log(data.size);
             
-                // Respond with a success status and the size in the body
-                res.status(200).send({ size: data.size });
+                // Respond with a success status and the size and success information in the body
+                res.status(200).send({ 
+                  size: data.size, 
+                  success: success, 
+                  feedChanged: storedSize !== data.size // check if the feed size has changed
+                });
               } catch (error) {
                 // If there was an error, return a server error
                 res.status(500).json({ error: 'Internal server error' });
