@@ -29,7 +29,7 @@ function FeedChecker() {
           setChange(`New feed size - Ping sent! - ${new Date().toUTCString()}`);
           try {
             // send ping to your new service
-            const pingResponse = await fetch(`https://nodefeedv.vercel.app/api/websub-ping?feed=${hubURL}`);
+            const pingResponse = await fetch(`/api/websub-ping?feed=${hubURL}`);
             // handle pingResponse as needed
             if (pingResponse.status !== 200) {
               console.error(`Error pinging WebSub: ${pingResponse.status}`);
@@ -40,7 +40,7 @@ function FeedChecker() {
             // handle error as needed
           }
           // send ping to Google Sitemap API
-          const googlePingURL = `https://nodefeedv.vercel.app/api/google-ping?sitemap=${encodeURIComponent(hubURL)}`;
+          const googlePingURL = `/api/google-ping?sitemap=${encodeURIComponent(hubURL)}`;
           try {
             const googlePingResponse = await fetch(googlePingURL);
             // handle googlePingResponse as needed
