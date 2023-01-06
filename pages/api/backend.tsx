@@ -22,9 +22,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     // Check if the feed size is already stored in memory
     let success = true; // assume the pings were successful unless an error occurs
+    let storedSize: number | undefined; // store the value of storedSize in a separate variable
     if (feedSizes.has(feed as string)) {
         // If the feed size is already stored, compare it with the current size
-        const storedSize = feedSizes.get(feed as string);
+        storedSize = feedSizes.get(feed as string);
         if (storedSize !== data.size) {
                         // If the sizes are different, update the stored size and ping the WebSub and GooglePing APIs
                         feedSizes.set(feed as string, data.size);
@@ -50,12 +51,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             
                 // Respond with a success status and the size and success information in the body
                 res.status(200).send({ 
-                  size: data.size, 
-                  success: success, 
-                  feedChanged: storedSize !== data.size // check if the feed size has changed
-                });
-              } catch (error) {
-                // If there was an error, return a server error
-                res.status(500).json({ error: 'Internal server error' });
-            }
-        };
+                    size: data.size, 
+                    success: success, 
+                    feedChanged: storedSize !== data.size // check if the feed size has changed
+                    });
+                } catch (error) {
+                    // If there was an error, return a server error
+                    res.status(500).json({ error: 'Internal server error' });
+                }
+            };
+                  
