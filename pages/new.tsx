@@ -31,6 +31,23 @@ function FeedChecker() {
             // send ping to your new service
             const pingResponse = await fetch(`https://nodefeedv.vercel.app/api/websub-ping?feed=${hubURL}`);
             // handle pingResponse as needed
+            if (pingResponse.status !== 200) {
+              console.error(`Error pinging internal service: ${pingResponse.status}`);
+              // handle error as needed
+            }
+          } catch (error) {
+            console.error(error);
+            // handle error as needed
+          }
+          // send ping to Google Sitemap API
+          const googlePingURL = `https://www.google.com/ping?sitemap=${encodeURIComponent(hubURL)}`;
+          try {
+            const googlePingResponse = await fetch(googlePingURL);
+            // handle googlePingResponse as needed
+            if (googlePingResponse.status !== 200) {
+              console.error(`Error pinging Google: ${googlePingResponse.status}`);
+              // handle error as needed
+            }
           } catch (error) {
             console.error(error);
             // handle error as needed
@@ -80,12 +97,8 @@ function FeedChecker() {
 
       {debugLink && <div id='debug'><p><a href={debugLink} target='_blank'>Debug</a></p></div>}
 
-      <iframe width='0' height='0' id='webSubPing'></iframe>
-      <iframe width='0' height='0' id='gscPing'></iframe>
-      
     </main>
   );
 }
 
 export default FeedChecker;
-
