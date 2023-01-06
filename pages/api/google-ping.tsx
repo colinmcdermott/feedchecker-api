@@ -2,29 +2,24 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import fetch from 'isomorphic-unfetch';
 
 export async function googlePingHandler(req: NextApiRequest, res: NextApiResponse) {
-  let sitemapURL: URL;
-  if (typeof req.query.feed === 'string') {
-    try {
-      sitemapURL = new URL(req.query.feed);
-    } catch (error) {
-      console.error(`Invalid sitemap URL: ${req.query.feed}`);
-      // handle invalid URL as needed
-    }
-  } else {
-    console.error(`Invalid sitemap URL: ${req.query.feed}`);
-    // handle invalid URL as needed
-  }
-  const googlePingURL = `https://www.google.com/ping?sitemap=${encodeURIComponent(sitemapURL.toString())}`;
   try {
-    const googlePingResponse = await fetch(googlePingURL);
-    // handle googlePingResponse as needed
-    if (googlePingResponse.status !== 200) {
-      console.error(`Error pinging Google: ${googlePingResponse.status}`);
-      // handle error as needed
+    const { sitemap } = req.query;
+    if (typeof sitemap !== 'string') {
+      throw new Error('Sitemap URL must be a valid URL');
     }
+    const decodedSitemap = decodeURIComponent(sitemap);
+    const sitemapUrl = new URL(decodedSitemap);
+    if (!(sitemapUrl instanceof URL)) {
+      throw new Error('Sitemap URL must be a valid URL');
+    }
+    const googlePingURL = `https://www.google.com/ping?sitemap=${encodeURIComponent(sitemapUrl.toString())}`;
+    const googlePingResponse = await fetch(googlePingURL);
+    if (googlePingResponse.status !== 200) {
+      throw new Error(`Error pinging Google: ${googlePingResponse.status}`);
+    }
+    res.status(200).json({ success: true });
   } catch (error) {
     console.error(error);
-    // handle error as needed
+    res.status(500).json({ success: false, error: error.message });
   }
-  res.send('Success');
 }
