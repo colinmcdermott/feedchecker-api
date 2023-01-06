@@ -19,9 +19,11 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       },
       body: `hub.mode=publish&hub.url=${encodeURIComponent(feedUrl.toString())}`
     });
-    const data = await response.json();
-    res.status(200).json({ success: true, data });
-  } catch (error: any) {
-    res.status(500).json({ success: false, error: error.message });
-  }
+    if (!response.ok) {
+      throw new Error('Request failed');
+    }
+    res.status(200).json({ success: true });
+} catch (error: any) {
+  res.status(500).json({ success: false, error: error.message });
+}
 };
