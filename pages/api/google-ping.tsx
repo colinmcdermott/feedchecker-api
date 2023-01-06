@@ -3,9 +3,14 @@ import fetch from 'isomorphic-unfetch';
 
 export async function googlePingHandler(req: NextApiRequest, res: NextApiResponse) {
   let sitemapURL: URL;
-  try {
-    sitemapURL = new URL(req.query.feed);
-  } catch (error) {
+  if (typeof req.query.feed === 'string') {
+    try {
+      sitemapURL = new URL(req.query.feed);
+    } catch (error) {
+      console.error(`Invalid sitemap URL: ${req.query.feed}`);
+      // handle invalid URL as needed
+    }
+  } else {
     console.error(`Invalid sitemap URL: ${req.query.feed}`);
     // handle invalid URL as needed
   }
