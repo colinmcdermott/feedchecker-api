@@ -42,4 +42,22 @@ async function startServer() {
     });
 
     req.on('error', error => {
-      console.
+      console.error(error);
+      res.send('Error');
+    });
+
+    req.write(querystring.stringify(data));
+    req.end();
+  });
+
+  server.get('*', (req, res) => {
+    return handle(req, res);
+  });
+
+  server.listen(3000, err => {
+    if (err) throw err;
+    console.log('> Ready on http://localhost:3000');
+  });
+}
+
+startServer();
