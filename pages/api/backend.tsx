@@ -7,6 +7,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     // Make a request to the custom API to get the size of the feed
     const response = await fetch(`/api/size?feed=${feed}`);
+
+    // Check the response status
+    if (response.status !== 200) {
+        // If the status is not 200 OK, return an error
+        res.status(response.status).json({ error: 'Failed to fetch feed' });
+        return;
+    }
+
     const data = await response.json();
 
     // Print the size in the console
