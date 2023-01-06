@@ -19,7 +19,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       throw new Error('Request failed');
     }
     res.status(200).json({ success: true });
-  } catch (error: Error) {
+  } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
 };
