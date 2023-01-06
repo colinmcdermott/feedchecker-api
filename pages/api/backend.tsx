@@ -14,8 +14,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     // Respond with a success status and the size in the body
     res.status(200).send({ size: data.size });
-    } catch (error: Error) {
-    // If there was an error, respond with a 500 error
-    res.status(500).send({ error: error.message });
+    } catch (error) {
+    // If there was an error, return a server error
+    res.status(500).json({ error: 'Internal server error' });
   }
 }
