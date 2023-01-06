@@ -1,3 +1,4 @@
+import { NextApiRequest, NextApiResponse } from 'next';
 import * as http from 'http';
 
 const HUB_URL_KEY = 'hubURL';
@@ -7,20 +8,9 @@ const GOOGLE_PING_ENDPOINT = '/api/google-ping';
 
 let storedSizes: { [key: string]: number } = {};
 
-// Replace with your own port
-const PORT = 3000;
-
-const server = http.createServer((req, res) => {
-  if (req.method === 'GET' && req.url) {
-    const host = req.headers.host;
-    const url = new URL(req.url, `http://${host}`);
-    const hubURL = url.searchParams.get(HUB_URL_KEY);
-
-    if (!hubURL) {
-      res.writeHead(400);
-      res.end('No hubURL provided');
-      return;
-    }
+export default (req: NextApiRequest, res: NextApiResponse) => {
+  if (req.method === 'GET' && req.query[HUB_URL_KEY]) {
+    const hubURL = req.query[HUB_URL_KEY] as string;
 
     // Make request to custom API to get size of feed
     const apiSizeEndpoint = `${API_SIZE_ENDPOINT}?feed=${hubURL}`;
@@ -32,15 +22,13 @@ const server = http.createServer((req, res) => {
       apiRes.on('end', () => {
         const size = Number(data);
         if (!size) {
-          res.writeHead(400);
-          res.end('Invalid size received from API');
+          res.status(400).end('Invalid size received from API');
           return;
         }
 
         if (storedSizes[hubURL] === size) {
           // Size has not changed, do nothing
-          res.writeHead(200);
-          res.end('Size has not changed');
+          res.status(200).end('Size has not changed');
           return;
         }
 
@@ -52,15 +40,12 @@ const server = http.createServer((req, res) => {
           // Ping GooglePing API
           const googlePingEndpoint = `${GOOGLE_PING_ENDPOINT}?sitemap=${hubURL}`;
           http.get(googlePingEndpoint, () => {
-            res.writeHead(200);
-            res.end('Size has changed and APIs have been pinged');
+            res.status(200).end('Size has changed and APIs have been pinged');
           });
         });
       });
     });
+  } else {
+    res.status(400).end('No hubURL provided');
   }
-});
-
-server.listen(PORT, () => {
-  console.log(`Listening on http://${host}:${PORT}`);
-});
+};
