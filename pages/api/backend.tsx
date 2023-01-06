@@ -1,9 +1,21 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { useState, useEffect } from 'react';
 
-export default async function feedSize(req: NextApiRequest, res: NextApiResponse) {
-  const { feed } = req.query;
-  const response = await fetch(`/api/size?feed=${feed}`);
-  const data = await response.json();
-  console.log(data.size);
-  res.status(200).end();
+async function getFeedSize(hubURL: string) {
+  try {
+    const response = await fetch(`/api/size?feed=${hubURL}`);
+    const data = await response.json();
+    console.log(`Feed size: ${data.size}`);
+  } catch (error) {
+    console.error(error);
+  }
 }
+
+function FeedChecker() {
+  const [hubURL, setHubURL] = useState('');
+
+  useEffect(() => {
+    getFeedSize(hubURL);
+  }, [hubURL]);
+}
+
+export default FeedChecker;
