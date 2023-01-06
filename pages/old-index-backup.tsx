@@ -27,31 +27,14 @@ function FeedChecker() {
         if (data.size !== feedSize) {
           setFeedSize(data.size);
           setChange(`New feed size - Ping sent! - ${new Date().toUTCString()}`);
-          try {
-            // send ping to your new service
-            const pingResponse = await fetch(`https://nodefeedv.vercel.app/api/websub-ping?feed=${hubURL}`);
-            // handle pingResponse as needed
-            if (pingResponse.status !== 200) {
-              console.error(`Error pinging internal service: ${pingResponse.status}`);
-              // handle error as needed
-            }
-          } catch (error) {
-            console.error(error);
-            // handle error as needed
-          }
-          // send ping to Google Sitemap API
-          const googlePingURL = `https://www.google.com/ping?sitemap=${encodeURIComponent(hubURL)}`;
-          try {
-            const googlePingResponse = await fetch(googlePingURL);
-            // handle googlePingResponse as needed
-            if (googlePingResponse.status !== 200) {
-              console.error(`Error pinging Google: ${googlePingResponse.status}`);
-              // handle error as needed
-            }
-          } catch (error) {
-            console.error(error);
-            // handle error as needed
-          }
+          document.getElementById('webSubPing')?.setAttribute(
+            'src',
+            `https://websub-ping-tool.pages.dev/?feed=${hubURL}&auto=true`
+          );
+          document.getElementById('gscPing')?.setAttribute(
+            'src',
+            `https://www.google.com/ping?sitemap=${hubURL}`
+          );
           setLastPing(new Date().toUTCString());
         } else {
           setChange(`Feed size unchanged - ${new Date().toUTCString()}`);
@@ -96,6 +79,9 @@ function FeedChecker() {
       </section>
 
       {debugLink && <div id='debug'><p><a href={debugLink} target='_blank'>Debug</a></p></div>}
+
+      <iframe width='0' height='0' id='webSubPing'></iframe>
+      <iframe width='0' height='0' id='gscPing'></iframe>
 
     </main>
   );
