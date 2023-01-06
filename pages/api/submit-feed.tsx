@@ -1,7 +1,6 @@
-import { NextApiRequest, NextApiResponse, NextApiHandler } from 'next';
-import request from 'request';
-import express from 'express';
-import next from 'next';
+import { NextApiRequest, NextApiResponse } from 'next';
+import http from 'http';
+import querystring from 'querystring';
 
 const dev = process.env.NODE_ENV !== 'production';
 
@@ -13,34 +12,34 @@ async function startServer() {
 
   const server = express();
 
-  server.get('/api/submit-feed', (req: NextApiRequest, res: NextApiResponse, nextHandler: NextApiHandler) => {
+  server.get('/api/submit-feed', (req: NextApiRequest, res: NextApiResponse) => {
     const { feed } = req.query;
     const data = {
       'hub.mode': 'publish',
       'hub.url': feed
     };
 
-    request.post({
-      url: 'https://pubsubhubbub.appspot.com/',
-      form: data
-    }, (error, response, body) => {
-      if (error) {
-        console.error(error);
-        return res.send('Error');
+    const options = {
+      host: 'pubsubhubbub.appspot.com',
+      port: 80,
+      path: '/',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Length': Buffer.byteLength(querystring.stringify(data))
       }
-      console.log(body);
-      res.send('Success');
+    };
+
+    const req = http.request(options, res => {
+      res.setEncoding('utf8');
+      res.on('data', chunk => {
+        console.log(chunk);
+      });
+      res.on('end', () => {
+        console.log('No more data in response.');
+        res.send('Success');
+      });
     });
-  });
 
-  server.get('*', (req, res) => {
-    return handle(req, res);
-  });
-
-  server.listen(3000, err => {
-    if (err) throw err;
-    console.log('> Ready on http://localhost:3000');
-  });
-}
-
-startServer();
+    req.on('error', error => {
+      console.
