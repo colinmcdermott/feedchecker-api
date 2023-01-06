@@ -28,8 +28,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                         // If the sizes are different, update the stored size and ping the WebSub and GooglePing APIs
                         feedSizes.set(feed as string, data.size);
                         console.log(`Sending pings for new feed size: ${data.size}`);
-                        await fetch(`/api/websub-ping?feed=${feed}`);
-                        await fetch(`/api/google-ping?sitemap=${feed}`);
+                        await fetch(`https://nodefeedv.vercel.app/api/websub-ping?feed=${feed}`);
+                        await fetch(`https://nodefeedv.vercel.app/api/google-ping?sitemap=${feed}`);
                     } else {
                         console.log(`Feed size is the same: ${data.size}`);
                     }
