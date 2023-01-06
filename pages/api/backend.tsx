@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import * as http from 'http';
 import * as url from 'url';
-import * as encodeURIComponent from 'encodeURIComponent';
 
 const HUB_URL_KEY = 'hubURL';
 const API_SIZE_ENDPOINT = '/api/size';
