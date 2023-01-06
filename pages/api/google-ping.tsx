@@ -18,7 +18,7 @@ export async function googlePingHandler(req: NextApiRequest, res: NextApiRespons
       throw new Error(`Error pinging Google: ${googlePingResponse.status}`);
     }
     res.status(200).json({ success: true });
-    } catch (error) { 
+    } catch (error: any) {  // use the any type
     console.error(error);
     res.status(500).json({ success: false, error: error.message });
   }
