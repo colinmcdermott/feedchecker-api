@@ -62,6 +62,6 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(500).end('An error occurred');
+    res.status(500).end(error.message);
   }
 };
