@@ -6,7 +6,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const { feed } = req.query;
 
     // Make a request to the custom API to get the size of the feed
-    const response = await fetch(`/api/size?feed=${feed}`);
+    const response = await fetch(`https://nodefeedv.vercel.app/api/size?feed=${feed}`);
 
     // Check the response status
     if (response.status !== 200) {
