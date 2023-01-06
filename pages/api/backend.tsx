@@ -7,7 +7,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   if (context.req.url) {
     query = url.parse(context.req.url, true).query;
   }
-  const hubURL = query.feed;
+  let hubURL = '';
+  if (query.feed) {
+    hubURL = query.feed;
+  }
 
   let size = null;
   let error = null;
