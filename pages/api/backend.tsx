@@ -1,6 +1,7 @@
 import fetch from 'node-fetch';
+import { NextApiRequest, NextApiResponse } from 'next';
 
-export default async (req, res) => {
+export default async (req: NextApiRequest, res: NextApiResponse) => {
   // Get the URL of the RSS feed or XML sitemap from the query string
   const { hubURL } = req.query;
 
