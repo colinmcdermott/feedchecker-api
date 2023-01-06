@@ -1,29 +1,42 @@
-import express from 'express';
+import { GetServerSideProps } from 'next';
+import * as http from 'http';
+import * as url from 'url';
 
-const app = express();
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const query = url.parse(context.req.url, true).query;
+  const hubURL = query.feed;
 
-async function fetchFeedSize(hubURL) {
-  try {
-    const response = await fetch(`/api/size?feed=${hubURL}`);
-    const data = await response.json();
-    return data.size;
-  } catch (error) {
-    console.error(error);
-    throw error;
+  if (!hubURL) {
+    return {
+      props: {
+        error: 'No feed URL specified',
+      },
+    };
   }
-}
 
-app.get('/feed-size', async (req, res) => {
+  const apiURL = `/api/size?feed=${hubURL}`;
+
   try {
-    const hubURL = req.query.feed;
-    const size = await fetchFeedSize(hubURL);
-    res.send({ size });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send({ error: 'An error occurred while fetching the feed size.' });
-  }
-});
+    const apiRes = await http.get(apiURL);
+    let data = '';
 
-app.listen(3000, () => {
-  console.log('Server listening on port 3000');
-});
+    apiRes.on('data', (chunk) => {
+      data += chunk;
+    });
+
+    apiRes.on('end', () => {
+      const size = JSON.parse(data).size;
+      return {
+        props: {
+          size: size,
+        },
+      };
+    });
+  } catch (e) {
+    return {
+      props: {
+        error: 'Could not get size of feed',
+      },
+    };
+  }
+};
