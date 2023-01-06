@@ -23,16 +23,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     // Check if the feed size is already stored in memory
     if (feedSizes.has(feed as string)) {
         // If the feed size is already stored, compare it with the current size
-        const storedSize = feedSizes.get(feed);
+        const storedSize = feedSizes.get(feed as string);
         if (storedSize !== data.size) {
             // If the sizes are different, update the stored size and ping the WebSub and GooglePing APIs
-            feedSizes.set(feed, data.size);
+            feedSizes.set(feed as string, data.size);
             await fetch(`/api/websub-ping?feed=${feed}`);
             await fetch(`/api/google-ping?sitemap=${feed}`);
         }
     } else {
         // If the feed size is not stored, add it to the map
-        feedSizes.set(feed, data.size);
+        feedSizes.set(feed as string, data.size);
     }
 
     // Print the size in the console
