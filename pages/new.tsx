@@ -65,25 +65,27 @@ function FeedChecker() {
       </form>
 
       {loading && <div id='loading'><p>Connecting to API...</p></div>}
-{feedSize && <div id='results'><p>API Success! Feed size: {feedSize} - Check interval: 30 seconds</p></div>}
+      {feedSize && <div id='results'><p>API Success! Feed size: {feedSize} - Check interval: 30 seconds</p></div>}
 
-<section className='statsWindow'>
-  <div id='change'>{change}</div>
-  {lastPing ? (
-    <div id='lastPing'>
-      Last ping sent: <time>{lastPing}</time>
-    </div>
-  ) : (
-    <div id='lastPing'></div>
-  )}
-</section>
+      <section className='statsWindow'>
+        <div id='change'>{change}</div>
+        {lastPing ? (
+          <div id='lastPing'>
+            Last ping sent: <time>{lastPing}</time>
+          </div>
+        ) : (
+          <div id='lastPing'></div>
+        )}
+      </section>
 
-{debugLink && <div id='debug'><p><a href={debugLink} target='_blank'>Debug</a></p></div>}
+      {debugLink && <div id='debug'><p><a href={debugLink} target='_blank'>Debug</a></p></div>}
 
-<iframe width='0' height='0' id='webSubPing'></iframe>
-<iframe width='0' height='0' id='gscPing'></iframe>
-</main>
+      <iframe width='0' height='0' id='webSubPing'></iframe>
+      <iframe width='0' height='0' id='gscPing'></iframe>
+      
+    </main>
   );
 }
 
 export default FeedChecker;
+
