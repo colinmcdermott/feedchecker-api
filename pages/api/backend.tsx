@@ -6,37 +6,34 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const query = url.parse(context.req.url, true).query;
   const hubURL = query.feed;
 
+  let size = null;
+  let error = null;
+
   if (!hubURL) {
-    return {
-      props: {
-        error: 'No feed URL specified',
-      },
-    };
+    error = 'No feed URL specified';
+  } else {
+    const apiURL = `/api/size?feed=${hubURL}`;
+
+    try {
+      const apiRes = await http.get(apiURL);
+      let data = '';
+
+      apiRes.on('data', (chunk) => {
+        data += chunk;
+      });
+
+      apiRes.on('end', () => {
+        size = JSON.parse(data).size;
+      });
+    } catch (e) {
+      error = 'Could not get size of feed';
+    }
   }
 
-  const apiURL = `/api/size?feed=${hubURL}`;
-
-  try {
-    const apiRes = await http.get(apiURL);
-    let data = '';
-
-    apiRes.on('data', (chunk) => {
-      data += chunk;
-    });
-
-    apiRes.on('end', () => {
-      const size = JSON.parse(data).size;
-      return {
-        props: {
-          size: size,
-        },
-      };
-    });
-  } catch (e) {
-    return {
-      props: {
-        error: 'Could not get size of feed',
-      },
-    };
-  }
+  return {
+    props: {
+      size: size,
+      error: error,
+    },
+  };
 };
