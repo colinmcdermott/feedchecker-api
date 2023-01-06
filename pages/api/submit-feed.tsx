@@ -1,6 +1,7 @@
 import fetch from 'isomorphic-unfetch';
+import { NextApiRequest, NextApiResponse } from 'next';
 
-export default async (req, res) => {
+export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     const { hubURL } = req.query;
     const response = await fetch('https://pubsubhubbub.appspot.com/', {
