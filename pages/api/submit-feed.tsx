@@ -13,7 +13,7 @@ async function startServer() {
 
   const server = express();
 
-  server.get('/api/submit-feed', (req: NextApiRequest, res: NextApiResponse, next: NextApiHandler) => {
+  server.get('/api/submit-feed', (req: NextApiRequest, res: NextApiResponse, nextHandler: NextApiHandler) => {
     const { feed } = req.query;
     const data = {
       'hub.mode': 'publish',
