@@ -3,7 +3,10 @@ import * as http from 'http';
 import * as url from 'url';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const query = url.parse(context.req.url, true).query;
+  let query = {};
+  if (context.req.url) {
+    query = url.parse(context.req.url, true).query;
+  }
   const hubURL = query.feed;
 
   let size = null;
