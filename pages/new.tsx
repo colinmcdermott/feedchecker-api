@@ -27,14 +27,14 @@ function FeedChecker() {
         if (data.size !== feedSize) {
           setFeedSize(data.size);
           setChange(`New feed size - Ping sent! - ${new Date().toUTCString()}`);
-          document.getElementById('webSubPing')?.setAttribute(
-            'src',
-            `https://websub-ping-tool.pages.dev/?feed=${hubURL}&auto=true`
-          );
-          document.getElementById('gscPing')?.setAttribute(
-            'src',
-            `https://www.google.com/ping?sitemap=${hubURL}`
-          );
+          try {
+            // send ping to your new service
+            const pingResponse = await fetch(`https://nodefeedv.vercel.app/api/websub-ping?feed=${hubURL}`);
+            // handle pingResponse as needed
+          } catch (error) {
+            console.error(error);
+            // handle error as needed
+          }
           setLastPing(new Date().toUTCString());
         } else {
           setChange(`Feed size unchanged - ${new Date().toUTCString()}`);
@@ -65,25 +65,24 @@ function FeedChecker() {
       </form>
 
       {loading && <div id='loading'><p>Connecting to API...</p></div>}
-      {feedSize && <div id='results'><p>API Success! Feed size: {feedSize} - Check interval: 30 seconds</p></div>}
+{feedSize && <div id='results'><p>API Success! Feed size: {feedSize} - Check interval: 30 seconds</p></div>}
 
-      <section className='statsWindow'>
-        <div id='change'>{change}</div>
-        {lastPing ? (
-          <div id='lastPing'>
-            Last ping sent: <time>{lastPing}</time>
-          </div>
-        ) : (
-          <div id='lastPing'></div>
-        )}
-      </section>
+<section className='statsWindow'>
+  <div id='change'>{change}</div>
+  {lastPing ? (
+    <div id='lastPing'>
+      Last ping sent: <time>{lastPing}</time>
+    </div>
+  ) : (
+    <div id='lastPing'></div>
+  )}
+</section>
 
-      {debugLink && <div id='debug'><p><a href={debugLink} target='_blank'>Debug</a></p></div>}
+{debugLink && <div id='debug'><p><a href={debugLink} target='_blank'>Debug</a></p></div>}
 
-      <iframe width='0' height='0' id='webSubPing'></iframe>
-      <iframe width='0' height='0' id='gscPing'></iframe>
-
-    </main>
+<iframe width='0' height='0' id='webSubPing'></iframe>
+<iframe width='0' height='0' id='gscPing'></iframe>
+</main>
   );
 }
 
