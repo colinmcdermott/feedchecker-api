@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextApiRequest, NextApiResponse, NextApiHandler } from 'next';
 import request from 'request';
 import express from 'express';
 import next from 'next';
@@ -13,7 +13,7 @@ async function startServer() {
 
   const server = express();
 
-  server.get('/api/submit-feed', (req: NextApiRequest, res: NextApiResponse) => {
+  server.get('/api/submit-feed', (req: NextApiRequest, res: NextApiResponse, next: NextApiHandler) => {
     const { feed } = req.query;
     const data = {
       'hub.mode': 'publish',
