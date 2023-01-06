@@ -1,5 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import * as http from 'http';
+import * as url from 'url';
+import * as encodeURIComponent from 'encodeURIComponent';
 
 const HUB_URL_KEY = 'hubURL';
 const API_SIZE_ENDPOINT = '/api/size';
@@ -12,8 +14,18 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET' && req.query[HUB_URL_KEY]) {
     const hubURL = req.query[HUB_URL_KEY] as string;
 
+    // Check if the hubURL is a valid URL
+    const parsedURL = url.parse(hubURL);
+    if (!parsedURL.protocol || !parsedURL.host) {
+      res.status(400).end('Invalid hubURL provided');
+      return;
+    }
+
+    // Encode the hubURL value
+    const encodedHubURL = encodeURIComponent(hubURL);
+
     // Make request to custom API to get size of feed
-    const apiSizeEndpoint = `${API_SIZE_ENDPOINT}?feed=${hubURL}`;
+    const apiSizeEndpoint = `${API_SIZE_ENDPOINT}?feed=${encodedHubURL}`;
     http.get(apiSizeEndpoint, apiRes => {
       let data = '';
       apiRes.on('data', (chunk: string) => {
@@ -35,10 +47,10 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
         storedSizes[hubURL] = size;
 
         // Size has changed, ping WebSub API
-        const websubPingEndpoint = `${WEBSUB_PING_ENDPOINT}?feed=${hubURL}`;
+        const websubPingEndpoint = `${WEBSUB_PING_ENDPOINT}?feed=${encodedHubURL}`;
         http.get(websubPingEndpoint, () => {
           // Ping GooglePing API
-          const googlePingEndpoint = `${GOOGLE_PING_ENDPOINT}?sitemap=${hubURL}`;
+          const googlePingEndpoint = `${GOOGLE_PING_ENDPOINT}?sitemap=${encodedHubURL}`;
           http.get(googlePingEndpoint, () => {
             res.status(200).end('Size has changed and APIs have been pinged');
           });
