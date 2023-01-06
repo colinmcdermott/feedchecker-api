@@ -26,8 +26,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       // Make request to custom API to get size of feed
       const apiSizeEndpoint = `${API_SIZE_ENDPOINT}?feed=${encodedHubURL}`;
       const apiRes = await fetch(apiSizeEndpoint);
+      console.log('apiRes:', apiRes);
       const data = await apiRes.json();
+      console.log('data:', data);
       const size = data.size;
+      console.log('size:', size);
       if (!size) {
         res.status(400).end('Invalid size received from API');
         return;
@@ -44,25 +47,28 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       // Size has changed, ping WebSub API
       const websubPingEndpoint = `${WEBSUB_PING_ENDPOINT}?feed=${encodedHubURL}`;
       const websubPingResponse = await fetch(websubPingEndpoint);
+      console.log('websubPingResponse:', websubPingResponse);
       if (websubPingResponse.status !== 200) {
         console.error(`Error pinging WebSub: ${websubPingResponse.status}`);
         // handle error as needed
       }
 
-      // Ping GooglePing API
-      const googlePingEndpoint = `${GOOGLE_PING_ENDPOINT}?sitemap=${encodedHubURL}`;
-      const googlePingResponse = await fetch(googlePingEndpoint);
-      if (googlePingResponse.status !== 200) {
-        console.error(`Error pinging Google: ${googlePingResponse.status}`);
-        // handle error as needed
-      }
-
-      res.status(200).end('Size has changed and APIs have been pinged');
-    } else {
-      res.status(400).end('No hubURL provided');
+        // Ping GooglePing API
+        const googlePingEndpoint = `${GOOGLE_PING_ENDPOINT}?sitemap=${encodedHubURL}`;
+        const googlePingResponse = await fetch(googlePingEndpoint);
+        console.log('googlePingResponse:', googlePingResponse);
+        if (googlePingResponse.status !== 200) {
+            console.error(`Error pinging Google: ${googlePingResponse.status}`);
+            // handle error as needed
+        }
+    
+        res.status(200).end('Size has changed and APIs have been pinged');
+        } else {
+        res.status(400).end('No hubURL provided');
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).end('An error occurred');
     }
-  } catch (error) {
-    console.error(error);
-    res.status(500).end('An error occurred');
-  }
 };
+      
