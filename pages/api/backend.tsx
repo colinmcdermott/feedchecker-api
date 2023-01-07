@@ -30,27 +30,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         // If the sizes are different, update the stored size and ping the WebSub API
         feedSizes.set(feed as string, data.size);
         console.log(`Sending pings for new feed size: ${data.size}`);
-        try {
-          // Send the WebSub ping
-          const webSubPingResponse = await fetch(`https://nodefeedv.vercel.app/api/websub-ping?feed=${feed}`);
-          if (webSubPingResponse.status !== 200) {
-            console.error(`Error pinging WebSub: ${webSubPingResponse.status}`);
-            // handle error as needed
-          } else {
-            // Parse the response as JSON
-            const webSubPingResponseJSON = await webSubPingResponse.json();
-            if (webSubPingResponseJSON.success === true) {
-              console.log('WebSub ping was successful');
-            } else {
-              console.error('WebSub ping was unsuccessful');
-              // handle error as needed
-            }
-          }
-        } catch (error) {
-          console.error(`Error pinging: ${error}`);
-          // if an error occurs, set success to false
-          success = false;
-        }
+        const webSubPingResponse = await fetch(`https://nodefeedv.vercel.app/api/websub-ping?feed=${feed}`);
+        const webSubPingResponseJSON = await webSubPingResponse.json();
+        success = webSubPingResponseJSON.success;
       } else {
         console.log(`Feed size is the same: ${data.size}`);
       }
