@@ -27,12 +27,21 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       // If the feed size is already stored, compare it with the current size
       storedSize = feedSizes.get(feed as string);
       if (storedSize !== data.size) {
-        // If the sizes are different, update the stored size and ping the WebSub API
+        // If the sizes are different, update the stored size and send a ping to the WebSub API
         feedSizes.set(feed as string, data.size);
         console.log(`Sending pings for new feed size: ${data.size}`);
-        const webSubPingResponse = await fetch(`https://nodefeedv.vercel.app/api/websub-ping?feed=${feed}`);
-        const webSubPingResponseJSON = await webSubPingResponse.json();
-        success = webSubPingResponseJSON.success; // change success to true if the WebSub API request is successful
+        try {
+          // send ping to the WebSub API
+          const pingResponse = await fetch(`https://nodefeedv.vercel.app/api/websub-ping?feed=${feed}`);
+          // check if the ping was successful
+          success = pingResponse.status === 200;
+          // handle pingResponse as needed
+          if (!success) {
+            console.error(`Error pinging WebSub: ${pingResponse.status}`);
+          }
+        } catch (error) {
+          console.error(`Error pinging WebSub: ${error}`);
+        }
       } else {
         console.log(`Feed size is the same: ${data.size}`);
       }
@@ -42,15 +51,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       console.log(`Stored new feed size: ${data.size}`);
     }
 
-   // Print the size in the console
-console.log(data.size);
+    // Print the size in the console
+    console.log(data.size);
 
-// Respond with a success status and the size and success information in the body
-res.status(200).send({ 
-  size: data.size, 
-  success: success, 
-  feedChanged: storedSize !== data.size // check if the feed size has changed
-});
+    // Respond with a success status and the size and success information in the body
+    res.status(200).send({ 
+      size: data.size, 
+      success: success, 
+      feedChanged: storedSize !== data.size // check if the feed size has changed
+    });
   } catch (error) {
     // If there was an error, return a server error
     res.status(500).json({ error: 'Internal server error' });
