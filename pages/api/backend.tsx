@@ -21,7 +21,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const data = await response.json();
 
     // Check if the feed size is already stored in memory
-    let success;
+    let success = false; // initialize success to false
     let storedSize: number | undefined; // store the value of storedSize in a separate variable
     if (feedSizes.has(feed as string)) {
       // If the feed size is already stored, compare it with the current size
@@ -32,7 +32,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         console.log(`Sending pings for new feed size: ${data.size}`);
         const webSubPingResponse = await fetch(`https://nodefeedv.vercel.app/api/websub-ping?feed=${feed}`);
         const webSubPingResponseJSON = await webSubPingResponse.json();
-        success = webSubPingResponseJSON.success;
+        success = webSubPingResponseJSON.success; // change success to true if the WebSub API request is successful
       } else {
         console.log(`Feed size is the same: ${data.size}`);
       }
