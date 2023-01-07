@@ -34,39 +34,38 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     const data = await response.json();
 
-    // Check if the feed size is already stored in memory
-    let success = false; // initialize success to false
-    let storedSize: number | undefined; // store the value of storedSize in a separate variable
-    if (feedSizes.has(feed as string)) {
-      // If the feed size is already stored, compare it with the current size
-      storedSize = feedSizes.get(feed as string);
-      if (storedSize !== data.size) {
-        // If the sizes are different, update the stored size and send a ping to the WebSub API
-        feedSizes.set(feed as string, data.size);
-        console.log(`Sending pings for new feed size: ${data.size}`);
-        if (typeof feed !== 'undefined') {
-          success = await sendPing(feed);
+        // Check if the feed size is already stored in memory
+        let success = false; // initialize success to false
+        let storedSize: number | undefined; // store the value of storedSize in a separate variable
+        if (feedSizes.has(feed)) {
+          // If the feed size is already stored, compare it with the current size
+          storedSize = feedSizes.get(feed);
+          if (storedSize !== data.size) {
+            // If the sizes are different, update the stored size and send a ping to the WebSub API
+            feedSizes.set(feed, data.size);
+            console.log(`Sending pings for new feed size: ${data.size}`);
+            success = await sendPing(feed);
+          } else {
+            console.log(`Feed size is the same: ${data.size}`);
+          }
+        } else {
+          // If the feed size is not stored, add it to the map
+          feedSizes.set(feed, data.size);
+          console.log(`Stored new feed size: ${data.size}`);
         }
-      } else {
-        console.log(`Feed size is the same: ${data.size}`);
+    
+        // Print the size in the console
+        console.log(data.size);
+    
+        // Respond with a success status and the size and success information in the body
+        res.status(200).send({ 
+          size: data.size, 
+          success: success, 
+          feedChanged: storedSize !== data.size // check if the feed size has changed
+        });
+      } catch (error) {
+        // If there was an error, return a server error
+        res.status(500).json({ error: 'Internal server error' });
       }
-    } else {
-      // If the feed size is not stored, add it to the map
-      feedSizes.set(feed as string, data.size);
-      console.log(`Stored new feed size: ${data.size}`);
-    }
-
-    // Print the size in the console
-    console.log(data.size);
-
-    // Respond with a success status and the size and success information in the body
-    res.status(200).send({ 
-      size: data.size, 
-      success: success, 
-      feedChanged: storedSize !== data.size // check if the feed size has changed
-    });
-  } catch (error) {
-    // If there was an error, return a server error
-    res.status(500).json({ error: 'Internal server error' });
-  }
-};
+    };
+    
