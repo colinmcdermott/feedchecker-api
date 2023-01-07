@@ -47,7 +47,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     // Check if the feed size is already stored in memory
     let success = false; // initialize success to false
     let storedSize: number | undefined; // store the value of storedSize in a separate variable
-    if (feedSizes.has(feed)) {
+    if (typeof feed === 'string' && feedSizes.has(feed)) {
       // If the feed size is already stored, compare it with the current size
       storedSize = feedSizes.get(feed);
       if (storedSize !== data.size) {
