@@ -27,7 +27,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       // If the feed size is already stored, compare it with the current size
       storedSize = feedSizes.get(feed as string);
       if (storedSize !== data.size) {
-        // If the sizes are different, update the stored size and ping the WebSub and GooglePing APIs
+        // If the sizes are different, update the stored size and ping the WebSub API
         feedSizes.set(feed as string, data.size);
         console.log(`Sending pings for new feed size: ${data.size}`);
         try {
@@ -36,13 +36,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           if (webSubPingResponse.status !== 200) {
             console.error(`Error pinging WebSub: ${webSubPingResponse.status}`);
             // handle error as needed
-          }
-
-          // Send the GooglePing ping
-          const googlePingResponse = await fetch(`https://nodefeedv.vercel.app/api/google-ping?sitemap=${feed}`);
-          if (googlePingResponse.status !== 200) {
-            console.error(`Error pinging GooglePing: ${googlePingResponse.status}`);
-            // handle error as needed
+          } else {
+            // Parse the response as JSON
+            const webSubPingResponseJSON = await webSubPingResponse.json();
+            if (webSubPingResponseJSON.success === true) {
+              console.log('WebSub ping was successful');
+            } else {
+              console.error('WebSub ping was unsuccessful');
+              // handle error as needed
+            }
           }
         } catch (error) {
           console.error(`Error pinging: ${error}`);
