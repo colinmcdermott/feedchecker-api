@@ -60,7 +60,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
     } else {
       // If the feed size is not stored, add it to the map
-      feedSizes.set(feed, data.size);
+      if (typeof feed === 'string') {
+        feedSizes.set(feed, data.size);
+        console.log(`Stored new feed size: ${data.size}`);
+      }
       console.log(`Stored new feed size: ${data.size}`);
     }
 
