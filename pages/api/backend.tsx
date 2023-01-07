@@ -13,9 +13,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     // Check the response status
     if (response.status !== 200) {
-        // If the status is not 200 OK, return an error
-        res.status(response.status).json({ error: 'Failed to fetch feed' });
-        return;
+      // If the status is not 200 OK, return an error
+      res.status(response.status).json({ error: 'Failed to fetch feed' });
+      return;
     }
 
     const data = await response.json();
@@ -24,40 +24,51 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     let success = true; // assume the pings were successful unless an error occurs
     let storedSize: number | undefined; // store the value of storedSize in a separate variable
     if (feedSizes.has(feed as string)) {
-        // If the feed size is already stored, compare it with the current size
-        storedSize = feedSizes.get(feed as string);
-        if (storedSize !== data.size) {
-                        // If the sizes are different, update the stored size and ping the WebSub and GooglePing APIs
-                        feedSizes.set(feed as string, data.size);
-                        console.log(`Sending pings for new feed size: ${data.size}`);
-                        try {
-                          await fetch(`https://nodefeedv.vercel.app/api/websub-ping?feed=${feed}`);
-                          await fetch(`https://nodefeedv.vercel.app/api/google-ping?sitemap=${feed}`);
-                        } catch (error) {
-                          // if an error occurs, set success to false
-                          success = false;
-                        }
-                    } else {
-                        console.log(`Feed size is the same: ${data.size}`);
-                    }
-                } else {
-                    // If the feed size is not stored, add it to the map
-                    feedSizes.set(feed as string, data.size);
-                    console.log(`Stored new feed size: ${data.size}`);
-                }
-            
-                // Print the size in the console
-                console.log(data.size);
-            
-                // Respond with a success status and the size and success information in the body
-                res.status(200).send({ 
-                    size: data.size, 
-                    success: success, 
-                    feedChanged: storedSize !== data.size // check if the feed size has changed
-                    });
-                } catch (error) {
-                    // If there was an error, return a server error
-                    res.status(500).json({ error: 'Internal server error' });
-                }
-            };
-                  
+      // If the feed size is already stored, compare it with the current size
+      storedSize = feedSizes.get(feed as string);
+      if (storedSize !== data.size) {
+        // If the sizes are different, update the stored size and ping the WebSub and GooglePing APIs
+        feedSizes.set(feed as string, data.size);
+        console.log(`Sending pings for new feed size: ${data.size}`);
+        try {
+          // Send the WebSub ping
+          const webSubPingResponse = await fetch(`https://nodefeedv.vercel.app/api/websub-ping?feed=${feed}`);
+          if (webSubPingResponse.status !== 200) {
+            console.error(`Error pinging WebSub: ${webSubPingResponse.status}`);
+            // handle error as needed
+          }
+
+          // Send the GooglePing ping
+          const googlePingResponse = await fetch(`https://nodefeedv.vercel.app/api/google-ping?sitemap=${feed}`);
+          if (googlePingResponse.status !== 200) {
+            console.error(`Error pinging GooglePing: ${googlePingResponse.status}`);
+            // handle error as needed
+          }
+        } catch (error) {
+          console.error(`Error pinging: ${error}`);
+          // if an error occurs, set success to false
+          success = false;
+        }
+      } else {
+        console.log(`Feed size is the same: ${data.size}`);
+      }
+    } else {
+      // If the feed size is not stored, add it to the map
+      feedSizes.set(feed as string, data.size);
+      console.log(`Stored new feed size: ${data.size}`);
+    }
+
+   // Print the size in the console
+console.log(data.size);
+
+// Respond with a success status and the size and success information in the body
+res.status(200).send({ 
+  size: data.size, 
+  success: success, 
+  feedChanged: storedSize !== data.size // check if the feed size has changed
+});
+  } catch (error) {
+    // If there was an error, return a server error
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
