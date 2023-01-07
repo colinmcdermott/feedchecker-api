@@ -4,6 +4,19 @@ import fetch from 'isomorphic-unfetch';
 // Create a map to store the feed sizes in memory
 const feedSizes = new Map<string, number>();
 
+async function sendPing(feed: string) {
+  try {
+    const pingResponse = await fetch(`https://nodefeedv.vercel.app/api/websub-ping?feed=${feed}`);
+    if (pingResponse.status === 200) {
+      const pingResponseJSON = await pingResponse.json();
+      return pingResponseJSON.success;
+    }
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+}
+
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     // Get the feed query parameter from the request
@@ -31,19 +44,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         // If the sizes are different, update the stored size and send a ping to the WebSub API
         feedSizes.set(feed as string, data.size);
         console.log(`Sending pings for new feed size: ${data.size}`);
-        try {
-          // send ping to the WebSub API
-          const pingResponse = await fetch(`https://nodefeedv.vercel.app/api/websub-ping?feed=${feed}`);
-          // handle pingResponse as needed
-          if (pingResponse.status === 200) {
-            const pingResponseJSON = await pingResponse.json();
-            if (pingResponseJSON.success) {
-              success = true;
-            }
-          }
-        } catch (error) {
-          console.error(error);
-        }
+        success = await sendPing(feed);
       } else {
         console.log(`Feed size is the same: ${data.size}`);
       }
@@ -67,3 +68,4 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+``
