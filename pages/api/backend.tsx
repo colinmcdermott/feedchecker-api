@@ -44,7 +44,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         // If the sizes are different, update the stored size and send a ping to the WebSub API
         feedSizes.set(feed as string, data.size);
         console.log(`Sending pings for new feed size: ${data.size}`);
-        success = await sendPing(feed);
+        if (typeof feed !== 'undefined') {
+          success = await sendPing(feed);
+        }
       } else {
         console.log(`Feed size is the same: ${data.size}`);
       }
@@ -68,4 +70,3 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
-``
