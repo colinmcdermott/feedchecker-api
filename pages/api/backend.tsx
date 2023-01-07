@@ -33,14 +33,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         try {
           // send ping to the WebSub API
           const pingResponse = await fetch(`https://nodefeedv.vercel.app/api/websub-ping?feed=${feed}`);
-          // check if the ping was successful
-          success = pingResponse.status === 200;
           // handle pingResponse as needed
-          if (!success) {
+          if (pingResponse.status !== 200) {
             console.error(`Error pinging WebSub: ${pingResponse.status}`);
+            // handle error as needed
           }
         } catch (error) {
-          console.error(`Error pinging WebSub: ${error}`);
+          console.error(error);
         }
       } else {
         console.log(`Feed size is the same: ${data.size}`);
