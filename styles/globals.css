@@ -30,6 +30,7 @@ section.statsWindow {
   overflow-x: hidden;
 }
 code {
+  display: inline-block;
   white-space: pre-wrap;
   background: var(--lightBackground);
   padding: 0 5px;
