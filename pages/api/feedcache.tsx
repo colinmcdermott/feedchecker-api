@@ -12,9 +12,7 @@ app.get('/api/feedcache', async (req, res) => {
     }
   
     try {
-      // Check the size of the feed
-      const sizeResponse = await fetch(`https://nodefeedv.vercel.app/api/size?feed=${feed}`);
-      const size = (await sizeResponse.json()).size;
+      const size = await getFeedSize(feed);
       const storedSize = feedSizeCache.get(feed);
       const sizeChanged = storedSize !== size;
   
@@ -23,10 +21,8 @@ app.get('/api/feedcache', async (req, res) => {
   
       // Fetch the WebSub and Google Ping APIs if the size has changed
       if (sizeChanged) {
-        const webSubResponse = await fetch(`https://nodefeedv.vercel.app/api/websub-ping?feed=${feed}`);
-        const webSubSuccess = webSubResponse.ok;
-        const googlePingResponse = await fetch(`https://www.google.com/ping?sitemap=${feed}`);
-        const googlePingSuccess = googlePingResponse.ok;
+        const webSubSuccess = await fetchWebSubAPI(feed);
+        const googlePingSuccess = await fetchGooglePingAPI(feed);
         return res.json({ size, sizeChanged, webSubFetchSuccess: webSubSuccess, googlePingSuccess });
       } else {
         return res.json({ size, sizeChanged });
@@ -35,5 +31,20 @@ app.get('/api/feedcache', async (req, res) => {
       return res.status(500).json({ error: 'Error checking feed size or fetching WebSub/Google Ping APIs' });
     }
 });
-  
+
+const getFeedSize = async (feed: string) => {
+  const sizeResponse = await fetch(`https://nodefeedv.vercel.app/api/size?feed=${feed}`);
+  return (await sizeResponse.json()).size;
+}
+
+const fetchWebSubAPI = async (feed: string) => {
+  const response = await fetch(`https://nodefeedv.vercel.app/api/websub-ping?feed=${feed}`);
+  return response.ok;
+}
+
+const fetchGooglePingAPI = async (feed: string) => {
+  const response = await fetch(`https://www.google.com/ping?sitemap=${feed}`);
+  return response.ok;
+}
+
 export default app;
