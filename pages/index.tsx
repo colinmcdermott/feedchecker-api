@@ -82,6 +82,24 @@ function FeedChecker() {
         />
         <input type='submit' value='Submit' id='submit' />
       </form>
+
+      <section>
+        {loading && <div id='loading'><p>Connecting to API...</p></div>}
+        {feedSize && <div id='results'><p>API Success! Feed size: {feedSize} - Check interval: 30 seconds</p></div>}
+      </section>
+
+      <section className='statsWindow'>
+        <div id='change'>{change}</div>
+        {lastPing ? (
+          <div id='lastPing'>
+            Last ping sent: <time>{lastPing}</time>
+          </div>
+        ) : (
+          <div id='lastPing'></div>
+        )}
+      </section>
+
+      {debugLink && <div id='debug'><p><a href={debugLink} target='_blank'>Debug</a></p></div>}
       
       <section>
 
@@ -118,24 +136,6 @@ function FeedChecker() {
         <p>If the API responds with a 500 error, or an other error message, there has been a problem accessing the feed or one of the API services.</p>
 
       </section>
-
-      <section>
-        {loading && <div id='loading'><p>Connecting to API...</p></div>}
-        {feedSize && <div id='results'><p>API Success! Feed size: {feedSize} - Check interval: 30 seconds</p></div>}
-      </section>
-
-      <section className='statsWindow'>
-        <div id='change'>{change}</div>
-        {lastPing ? (
-          <div id='lastPing'>
-            Last ping sent: <time>{lastPing}</time>
-          </div>
-        ) : (
-          <div id='lastPing'></div>
-        )}
-      </section>
-
-      {debugLink && <div id='debug'><p><a href={debugLink} target='_blank'>Debug</a></p></div>}
 
     </main>
   );
