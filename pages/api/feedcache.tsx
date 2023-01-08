@@ -3,7 +3,7 @@ import fetch from 'isomorphic-unfetch';
 const NodeCache = require('node-cache');
 
 const app = express();
-const feedSizeCache = new NodeCache({ stdTTL: 900 /* seconds */ });
+const feedSizeCache = new NodeCache({ stdTTL: 7200 /* seconds */ });
 
 app.get('/api/feedcache', async (req, res) => {
     const feed = req.query.feed as string;
