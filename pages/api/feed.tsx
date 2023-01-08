@@ -5,7 +5,7 @@ const app = express();
 const feedSizes = new Map<string, number>();
 
 app.get('/api/feed', (req, res) => {
-  const feed = req.query.feed;
+  const feed = req.query.feed as string;
   if (!feed) {
     return res.status(400).json({ error: 'Missing "feed" query parameter' });
   }
