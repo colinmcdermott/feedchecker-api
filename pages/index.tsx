@@ -81,6 +81,15 @@ function FeedChecker() {
         />
         <input type='submit' value='Submit' id='submit' />
       </form>
+      <aside>
+        <details>
+          <summary>What is this tool?</summary>
+          This tool checks an RSS feed or XML sitemap at 30 second intervals, and if it detects a new size - it sends a ping to Google's <a href="https://pubsubhubbub.appspot.com/" target="_blank">WebSub hub</a> and Google Search Console. 
+          This should trigger Google to crawl the specified feed immediately.<br><br>
+          <strong>URL Parameters</strong><br><br>
+          You can use a <code>feed</code> URL parameter to pre-fill the feed URL, eg: <a href="/?feed=https://example.com/feed/" rel="nofollow">?feed=https://example.com/feed/</a>.<br><br>
+        </details>
+      </aside>
 
       {loading && <div id='loading'><p>Connecting to API...</p></div>}
       {feedSize && <div id='results'><p>API Success! Feed size: {feedSize} - Check interval: 30 seconds</p></div>}
