@@ -1,24 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
-import localFont from '@next/font/local';
-
-const ibmPlexSans = localFont({
-  src: [
-    {
-      path: '../public/fonts/ibm-sans-500.woff2',
-      weight: '500',
-    },
-    {
-      path: '../public/fonts/ibm-sans-700.woff2',
-      weight: '700',
-    },
-  ],
-});
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  context.res.setHeader('Link', `<${ibmPlexSans.className}>; rel=stylesheet`);
-  return { props: {} }
-}
 
 function FeedChecker() {
   const [hubURL, setHubURL] = useState('');
@@ -81,7 +62,7 @@ function FeedChecker() {
   }, [feedSize, hubURL]);
 
   return (
-    <main className={ibmPlexSans.className}>
+    <main>
       <Head>
         <title>Feed Ping SEO Tool</title>
         <meta name='description' content='Speed up your search engine indexing and content discovery with automated RSS and Sitemap pinging from FeedPing.dev.' />
@@ -180,11 +161,6 @@ function FeedChecker() {
 
     </main>
   );
-}
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  context.res.setHeader('Link', '</public/fonts/ibm-sans-500.woff2>; rel=preload; as=font; type=font/woff2; crossOrigin; </public/fonts/ibm-sans-700.woff2>; rel=preload; as=font; type=font/woff2; crossOrigin')
-  return { props: {} }
 }
 
 export default FeedChecker;
