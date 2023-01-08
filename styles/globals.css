@@ -18,6 +18,12 @@ main {
 main, aside, form, section, #results, #loading, #debug {
   padding: var(--flowSpace);
 }
+section {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  max-width:95%;
+}
 section.statsWindow {
   display: flex;
   flex-direction: row;
