@@ -95,6 +95,7 @@ input[type=submit] {
   background-color: black;
   color: white;
   padding: 4px 8px;
+  cursor: pointer;
   opacity:0.9;
 }
 input[type=submit]:hover {
