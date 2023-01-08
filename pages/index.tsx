@@ -98,8 +98,9 @@ function FeedChecker() {
         ) : (
           <div id='lastPing'></div>
         )}
-        {debugLink && <div id='debug'><p><a href={debugLink} target='_blank'>Debug</a></p></div>}
       </section>
+
+      {debugLink && <div id='debug'><p><a href={debugLink} target='_blank'>Debug</a></p></div>}
       
       <section>
 
