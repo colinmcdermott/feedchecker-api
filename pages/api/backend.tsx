@@ -65,22 +65,24 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         console.log(`Feed size is the same: ${data.size}`);
       }
     } else {
-      // If the feed size is not stored, add it to the map
-      if (typeof feed === 'string') {
-        feedSizes.set(feed, data.size);
-        console.log(`Stored new feed size: ${data.size}`);
-      }
+            // If the feed size is not stored, add it to the map
+            if (typeof feed === 'string') {
+              feedSizes.set(feed, data.size);
+              console.log(`Stored new feed size: ${data.size}`);
+            }
+            
+            // Print the size in the console
+            console.log(data.size);
+            
+            // Respond with a success status and the size and success information in the body
+          res.status(200).send({ 
+            size: data.size, 
+            success: success, 
+            feedChanged: storedSize !== data.size // check if the feed size has changed
+          });
+        } catch (error) {
+          // If there was an error, return a server error
+          res.status(500).json({ error: 'Internal server error' });
+        }
+      };
       
-      // Print the size in the console
-      console.log(data.size);
-      
-      // Respond with a success status and the size and success information in the body
-    res.status(200).send({ 
-      size: data.size, 
-      success: success, 
-      feedChanged: storedSize !== data.size // check if the feed size has changed
-    });
-  } catch (error) {
-    // If there was an error, return a server error
-    res.status(500).json({ error: 'Internal server error' });
-  };
