@@ -8,10 +8,8 @@ const feedSizes = new Map<string, number>();
 async function fetchWebSub(feed: string) {
   try {
     const fetchResponse = await fetch(`https://nodefeedv.vercel.app/api/websub-fetch?feed=${feed}`);
-    if (fetchResponse.status === 200) {
-      const fetchResponseJSON = await fetchResponse.json();
-      return fetchResponseJSON.success;
-    }
+    const fetchResponseJSON = await fetchResponse.json();
+    return fetchResponseJSON.success;
   } catch (error) {
     console.error(error);
     return false;
@@ -40,14 +38,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     // Make a request to the custom API to get the size of the feed
     const response = await fetch(`https://nodefeedv.vercel.app/api/size?feed=${feed}`);
-
-    // Check the response status
-    if (response.status !== 200) {
-      // If the status is not 200 OK, return an error
-      res.status(response.status).json({ error: 'Failed to fetch feed' });
-      return;
-    }
-
     const data = await response.json();
 
     // Check if the feed size is already stored in memory
@@ -75,14 +65,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     // Print the size in the console
     console.log(data.size);
     
-    // Respond with a success status and the size and success information in the body
-    res.status(200).send({ 
-      size: data.size, 
-      success: success, 
-      feedChanged: storedSize !== data.size // check if the feed size has changed
-    });
-  } catch (error) {
-    // If there was an error, return a server error
-    res.status(500).json({ error: 'Internal server error' });
-  }
-};
+        // Respond with a success status and the size and success information in the body
+        res.status(200).send({ 
+          size: data.size, 
+          success: success, 
+          feedChanged: storedSize !== data.size // check if the feed size has changed
+        });
+      } catch (error) {
+        // If there was an error, return a server error
+        res.status(500).json({ error: 'Internal server error' });
+      }
+    };
+    
