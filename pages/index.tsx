@@ -143,7 +143,7 @@ function FeedChecker() {
 
         <h3>Credit</h3>
 
-        <p>Tool created by Colin McDermott.</p>
+        <p>Tool created by <a href='https://twitter.com/ColinMcDermott' target='_blank'>Colin McDermott</a>.</p>
 
       </section>
 
