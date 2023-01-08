@@ -5,12 +5,12 @@ import querystring from 'querystring';
 // Create a map to store the feed sizes in memory
 const feedSizes = new Map<string, number>();
 
-async function sendPing(feed: string) {
+async function fetchWebSub(feed: string) {
   try {
-    const pingResponse = await fetch(`https://nodefeedv.vercel.app/api/websub-ping?feed=${feed}`);
-    if (pingResponse.status === 200) {
-      const pingResponseJSON = await pingResponse.json();
-      return pingResponseJSON.success;
+    const fetchResponse = await fetch(`https://nodefeedv.vercel.app/api/websub-fetch?feed=${feed}`);
+    if (fetchResponse.status === 200) {
+      const fetchResponseJSON = await fetchResponse.json();
+      return fetchResponseJSON.success;
     }
   } catch (error) {
     console.error(error);
@@ -32,6 +32,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     // Get the feed parameter from the query object
     const feed = query.feed;
 
+    // Make sure the feed parameter is a string
+    if (typeof feed !== 'string') {
+      res.status(400).json({ error: 'Invalid feed parameter: expected string' });
+      return;
+    }
+
     // Make a request to the custom API to get the size of the feed
     const response = await fetch(`https://nodefeedv.vercel.app/api/size?feed=${feed}`);
 
@@ -51,10 +57,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       // If the feed size is already stored, compare it with the current size
       storedSize = feedSizes.get(feed);
       if (storedSize !== data.size) {
-        // If the sizes are different, update the stored size and send a ping to the WebSub API
+        // If the sizes are different, update the stored size and fetch the WebSub API
         feedSizes.set(feed, data.size);
-        console.log(`Sending pings for new feed size: ${data.size}`);
-        success = await sendPing(feed);
+        console.log(`Fetching WebSub API for new feed size: ${data.size}`);
+        success = await fetchWebSub(feed);
       } else {
         console.log(`Feed size is the same: ${data.size}`);
       }
@@ -64,13 +70,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         feedSizes.set(feed, data.size);
         console.log(`Stored new feed size: ${data.size}`);
       }
-      console.log(`Stored new feed size: ${data.size}`);
-    }
-
-    // Print the size in the console
-    console.log(data.size);
-
-    // Respond with a success status and the size and success information in the body
+      
+      // Print the size in the console
+      console.log(data.size);
+      
+      // Respond with a success status and the size and success information in the body
     res.status(200).send({ 
       size: data.size, 
       success: success, 
@@ -79,5 +83,4 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   } catch (error) {
     // If there was an error, return a server error
     res.status(500).json({ error: 'Internal server error' });
-  }
-};
+  };
