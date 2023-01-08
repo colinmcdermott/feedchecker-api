@@ -89,8 +89,8 @@ function FeedChecker() {
       <p>You can use a <code>feed</code> URL parameter to pre-fill the feed URL, eg: <a href='/?feed=https://example.com/feed/' rel='nofollow'>?feed=https://example.com/feed/</a>.</p>
       <h3>API</h3>
       <p>Add the <code>feed</code> URL parameter with your URL to the /api/feedcache API and get a JSON response back. Eg <a href='/api/feedcache?feed=https://example.com/feed/' rel='nofollow'>/api/feedcache?feed=https://example.com/feed/</a>.</p>
-      <p>A typical successful response, where the feed size is new and pings have been sent looks like this: <code>&#123;"size":123456,"sizeChanged":true,"webSubFetchSuccess":true,"googlePingSuccess":true&#123;</code></p>
-      <p>If the feed size is unchanged, the response will look like this: <code>&#123;"size":123456,"sizeChanged":false&#123;</code></p>
+      <p>A typical successful response, where the feed size is new and pings have been sent looks like this: <code>&#123;"size":123456,"sizeChanged":true,"webSubFetchSuccess":true,"googlePingSuccess":true&#125;</code></p>
+      <p>If the feed size is unchanged, the response will look like this: <code>&#123;"size":123456,"sizeChanged":false&#125;</code></p>
 
       {loading && <div id='loading'><p>Connecting to API...</p></div>}
       {feedSize && <div id='results'><p>API Success! Feed size: {feedSize} - Check interval: 30 seconds</p></div>}
