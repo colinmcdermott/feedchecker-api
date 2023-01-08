@@ -28,6 +28,10 @@ section.statsWindow {
   max-height:400px;
   overflow-x: hidden;
 }
+code {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
 #change, #additional {
   margin-right:var(--flowSpace);
   display:flex;
