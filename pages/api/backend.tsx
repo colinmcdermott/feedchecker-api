@@ -8,7 +8,7 @@ const feedSizes = new Map<string, number>();
 // Function to make a request to the custom API to fetch the WebSub API
 async function fetchWebSub(feed: string) {
   try {
-    const fetchResponse = await fetch(`https://nodefeedv.vercel.app/api/websub-fetch?feed=${feed}`);
+    const fetchResponse = await fetch(`https://nodefeedv.vercel.app/api/websub-ping?feed=${feed}`);
     const fetchResponseJSON = await fetchResponse.json();
     return fetchResponseJSON.success;
   } catch (error) {
