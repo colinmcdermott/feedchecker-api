@@ -1,6 +1,6 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
-import { link } from 'next/head';
+import Head from 'next/head';
 import localFont from '@next/font/local';
 
 const ibmPlexSans = localFont({
