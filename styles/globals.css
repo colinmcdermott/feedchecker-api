@@ -25,6 +25,9 @@ section {
 section p {
   max-width: 75ch;
 }
+a:any-link {
+  color:rebeccapurple;
+}
 section.statsWindow {
   display: flex;
   flex-direction: row;
