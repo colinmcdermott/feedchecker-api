@@ -5,6 +5,7 @@ import querystring from 'querystring';
 // Create a map to store the feed sizes in memory
 const feedSizes = new Map<string, number>();
 
+// Function to make a request to the custom API to fetch the WebSub API
 async function fetchWebSub(feed: string) {
   try {
     const fetchResponse = await fetch(`https://nodefeedv.vercel.app/api/websub-fetch?feed=${feed}`);
@@ -16,6 +17,19 @@ async function fetchWebSub(feed: string) {
   }
 }
 
+// Function to get the size of a feed from the custom API
+async function getFeedSize(feed: string) {
+  try {
+    const response = await fetch(`https://nodefeedv.vercel.app/api/size?feed=${feed}`);
+    const data = await response.json();
+    return data.size;
+  } catch (error) {
+    console.error(error);
+    return -1;
+  }
+}
+
+// Function to handle the API route
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     // Make sure the req.url property is defined
@@ -36,9 +50,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       return;
     }
 
-    // Make a request to the custom API to get the size of the feed
-    const response = await fetch(`https://nodefeedv.vercel.app/api/size?feed=${feed}`);
-    const data = await response.json();
+    // Get the size of the feed
+    const currentSize = await getFeedSize(feed);
 
     // Check if the feed size is already stored in memory
     let success = false; // initialize success to false
@@ -46,34 +59,34 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     if (typeof feed === 'string' && feedSizes.has(feed)) {
       // If the feed size is already stored, compare it with the current size
       storedSize = feedSizes.get(feed);
-      if (storedSize !== data.size) {
+      if (storedSize !== currentSize) {
         // If the sizes are different, update the stored size and fetch the WebSub API
-        feedSizes.set(feed, data.size);
-        console.log(`Fetching WebSub API for new feed size: ${data.size}`);
+        feedSizes.set(feed, currentSize);
+        console.log(`Fetching WebSub API for new feed size: ${currentSize}`);
         success = await fetchWebSub(feed);
       } else {
-        console.log(`Feed size is the same: ${data.size}`);
+        console.log(`Feed size is the same: ${currentSize}`);
       }
     } else {
       // If the feed size is not stored, add it to the map
       if (typeof feed === 'string') {
-        feedSizes.set(feed, data.size);
-        console.log(`Stored new feed size: ${data.size}`);
+        feedSizes.set(feed, currentSize);
+        console.log(`Stored new feed size: ${currentSize}`);
       }
     }
     
     // Print the size in the console
-    console.log(data.size);
+    console.log(currentSize);
     
-        // Respond with a success status and the size and success information in the body
-        res.status(200).send({ 
-          size: data.size, 
-          success: success, 
-          feedChanged: storedSize !== data.size // check if the feed size has changed
-        });
-      } catch (error) {
-        // If there was an error, return a server error
-        res.status(500).json({ error: 'Internal server error' });
-      }
-    };
-    
+    // Respond with a success status and the size and success information in the body
+    res.status(200).send({ 
+      size: currentSize, 
+      success: success, 
+      feedChanged: storedSize !== currentSize // check if the feed size has changed
+    });
+  } catch (error) {
+    // If there was an error, return a server error
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
