@@ -145,7 +145,8 @@ function FeedChecker() {
           </pre>
         </code>
 
-        <p>If the API responds with a 500 error, or an other error message, there has been an issue with the feed or one of the API services.</p>
+        <p>If the API responds with a 500 error, or any other error message, there has been an issue with the feed or one of the API services.</p>
+        <p>Make sure you are using the <code>feed</code> URL parameter with the correct URL of your feed.</p>
 
         <h3>Credit</h3>
 
