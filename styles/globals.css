@@ -18,7 +18,6 @@ body {
   background-color:var(--background);
 }
 body, input, label {
-  background-color:var(--background);
   font-size: 22px;
   font-weight: 500;
   line-height: 35px;
