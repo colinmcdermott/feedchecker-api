@@ -4,7 +4,8 @@ html,body,main {
   text-rendering: optimizeSpeed;
 }
 :root {
-  --flowSpace: 1.09em;
+  --flowSpace:1.09em;
+  --lightBackground:#F9F9F9;
 }
 body {background-color:#e9e9e9;}
 body, input, label {
@@ -31,6 +32,9 @@ section.statsWindow {
 code {
   white-space: pre-wrap;
   word-wrap: break-word;
+  background: var(--lightBackground);
+  padding: 1px;
+  border-radius: 3px;
 }
 #change, #additional {
   margin-right:var(--flowSpace);
@@ -39,7 +43,7 @@ code {
   align-items: flex-start;}
 form {
   display: inline-flex;
-  background-color: #F9F9F9;
+  background-color: var(--lightBackground);
   align-content: space-around;
   flex-wrap: wrap;
   align-items: center;
