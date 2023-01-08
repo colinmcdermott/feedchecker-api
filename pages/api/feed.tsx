@@ -13,8 +13,7 @@ app.get('/api/feed', async (req, res) => {
     try {
       // Check the size of the feed
       const sizeResponse = await fetch(`https://nodefeedv.vercel.app/api/size?feed=${feed}`);
-      const sizeData = await sizeResponse.json();
-      const size = sizeData.size;
+      const size = (await sizeResponse.json()).size;
       const storedSize = feedSizes.get(feed);
       const sizeChanged = storedSize !== size;
   
