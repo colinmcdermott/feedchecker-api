@@ -9,7 +9,7 @@ const apiMiddleware = (req, res, next) => {
 const nextConfig = {
   reactStrictMode: true,
   serverMiddleware: [
-    apiMiddleware
+    { path: '/api/feedcache', handler: apiMiddleware }
   ],
 }
 
