@@ -66,7 +66,7 @@ function FeedChecker() {
       <Head>
         <title>Node Feed Checker</title>
         <link rel='canonical' href='https://feedping.dev/' />
-        <link rel='icon' type='image/svg' href="data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8' %3F%3E%3Csvg xmlns='http://www.w3.org/2000/svg' version='1.1' width='12' height='12'%3E%3C/svg%3E"></link>
+        <link rel='icon' type='image/svg+xml' href='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22256%22 height=%22256%22 viewBox=%220 0 100 100%22><text x=%2250%%22 y=%2250%%22 dominant-baseline=%22central%22 text-anchor=%22middle%22 font-size=%2294%22>👋</text></svg>' />
       </Head>
       <form className='feedCheckForm' onSubmit={handleSubmit}>
         <label htmlFor='hubURL'>RSS Feed URL:</label>
