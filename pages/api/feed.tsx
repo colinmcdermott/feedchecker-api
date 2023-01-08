@@ -23,7 +23,7 @@ app.get('/api/feed', async (req, res) => {
 
     // Fetch the WebSub API if the size has changed
     if (sizeChanged) {
-      const webSubResponse = await fetch(`https://nodefeedv.vercel.app/api/websub-fetch?feed=${feed}`);
+      const webSubResponse = await fetch(`https://nodefeedv.vercel.app/api/websub-ping?feed=${feed}`);
       const webSubSuccess = webSubResponse.ok;
       return res.json({ size, sizeChanged, webSubFetchSuccess: webSubSuccess });
     } else {
