@@ -57,16 +57,25 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       // If the feed size is already stored, compare it with the current size
       storedSize = feedSizes.get(feed);
       if (storedSize !== data.size) {
+        // If the sizes are different, update the stored size and fetch the WebSub API
+        feedSizes.set(feed, data.size);
+        console.log(`Fetching WebSub API for new feed size: ${data.size}`);
+        success = await fetchWebSub(feed);
+      } else {
+        console.log(`Feed size is the same: ${data.size}`);
+      }
+    } else {
       // If the feed size is not stored, add it to the map
       if (typeof feed === 'string') {
         feedSizes.set(feed, data.size);
         console.log(`Stored new feed size: ${data.size}`);
       }
-      
-      // Print the size in the console
-      console.log(data.size);
-      
-      // Respond with a success status and the size and success information in the body
+    }
+    
+    // Print the size in the console
+    console.log(data.size);
+    
+    // Respond with a success status and the size and success information in the body
     res.status(200).send({ 
       size: data.size, 
       success: success, 
@@ -77,4 +86,3 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
-
