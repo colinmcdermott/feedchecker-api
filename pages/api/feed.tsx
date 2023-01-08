@@ -1,8 +1,8 @@
-const express = require('express');
-const request = require('request');
+import express from 'express';
+import request from 'request';
 
 const app = express();
-const feedSizes = new Map();
+const feedSizes = new Map<string, number>();
 
 app.get('/api/feed', (req, res) => {
   const feed = req.query.feed;
