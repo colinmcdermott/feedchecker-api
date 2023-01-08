@@ -104,6 +104,8 @@ function FeedChecker() {
       
       <section>
 
+        <h1>👋 Feed Ping Tool</h1>
+
         <h2>What is this tool?</h2>
         <p>This tool checks an RSS feed or XML sitemap at 30 second intervals, and if it detects a new size - it sends a ping to Google's <a href='https://pubsubhubbub.appspot.com/' target='_blank'>WebSub hub</a> and Google Search Console.</p>
         <p>This should trigger Google to crawl the specified feed immediately.</p>
