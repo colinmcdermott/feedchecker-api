@@ -31,7 +31,6 @@ section.statsWindow {
 }
 code {
   white-space: pre-wrap;
-  word-wrap: break-word;
   background: var(--lightBackground);
   padding: 1px;
   border-radius: 3px;
@@ -39,7 +38,6 @@ code {
 pre {
   display: inline-block;
   white-space: pre-wrap;
-  word-wrap: break-word;
   background: var(--lightBackground);
 }
 #change, #additional {
