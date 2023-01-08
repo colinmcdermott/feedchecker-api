@@ -50,8 +50,7 @@ h3 {
 }
 a:any-link {
   color:rebeccapurple;
-  text-decoration-thickness: 3px;
-  text-underline-offset: 3px;
+  text-underline-offset: 5px;
 }
 a:any-link:hover {
   color:black;
