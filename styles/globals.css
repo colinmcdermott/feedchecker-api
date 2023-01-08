@@ -27,9 +27,10 @@ section p {
 }
 a:any-link {
   color:rebeccapurple;
+  text-decoration-thickness: 2px;
 }
 a:any-link:hover {
-  text-decoration-thickness: 3px;
+  color:black;
 }
 section.statsWindow {
   display: flex;
