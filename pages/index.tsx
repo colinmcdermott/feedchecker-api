@@ -64,8 +64,8 @@ function FeedChecker() {
   return (
     <main>
       <Head>
-        <link rel='preload' fetchpriority='high' as='font' href='/fonts/ibm-sans-500.woff2' type='font/woff2' crossorigin>
-        <link rel='preload' fetchpriority='high' as='font' href='/fonts/ibm-sans-700.woff2' type='font/woff2' crossorigin>
+        <link rel='preload' fetchpriority='high' as='font' href='/fonts/ibm-sans-500.woff2' type='font/woff2' crossorigin />
+        <link rel='preload' fetchpriority='high' as='font' href='/fonts/ibm-sans-700.woff2' type='font/woff2' crossorigin />
         <title>Feed Ping SEO Tool</title>
         <meta name='description' content='Speed up your search engine indexing and content discovery with automated RSS and Sitemap pinging from FeedPing.dev.' />
         <link rel='canonical' href='https://feedping.dev/' />
