@@ -11,7 +11,7 @@
       <title>Feed Ping</title>
       <atom:link href="https://feedping.dev/feed.xml" rel="self" type="application/rss+xml" />
       <link>https://feedping.dev/</link>
-      <description>Feed Ping Tool</description>
+      <description>Speed up your search engine indexing and content discovery with automated RSS and Sitemap pinging from FeedPing.dev.</description>
       <language>en-GB</language>
       <atom:link rel="hub" href="https://pubsubhubbub.appspot.com"/>
       <atom:link rel="hub" href="https://pubsubhubbub.superfeedr.com"/>
