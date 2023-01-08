@@ -3,17 +3,9 @@ import fetch from 'isomorphic-unfetch';
 const NodeCache = require('node-cache');
 
 const app = express();
-const feedSizeCache = new NodeCache({ stdTTL: 900 /* seconds */ }); // Extend cache time to 15 minutes
-
-// Set the correct API keys
-const API_KEYS = ['1234', '4567', '8910'];
+const feedSizeCache = new NodeCache({ stdTTL: 7200 /* seconds */ });
 
 app.get('/api/feedcache', async (req, res) => {
-    // Validate the API key
-    if (typeof req.query.apiKey === 'string' && !API_KEYS.includes(req.query.apiKey)) {
-      return res.status(401).json({ error: 'Invalid API key' });
-    }
-  
     const feed = req.query.feed as string;
     if (!feed) {
       return res.status(400).json({ error: 'Missing "feed" query parameter' });
