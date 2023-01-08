@@ -25,7 +25,7 @@ app.get('/api/feed', async (req, res) => {
       if (sizeChanged) {
         const webSubResponse = await fetch(`https://nodefeedv.vercel.app/api/websub-ping?feed=${feed}`);
         const webSubSuccess = webSubResponse.ok;
-        const googlePingResponse = await fetch(`https://nodefeedv.vercel.app/api/google-ping?feed=${feed}`);
+        const googlePingResponse = await fetch(`https://www.google.com/ping?sitemap=${feed}`);
         const googlePingSuccess = googlePingResponse.ok;
         return res.json({ size, sizeChanged, webSubFetchSuccess: webSubSuccess, googlePingSuccess });
       } else {
