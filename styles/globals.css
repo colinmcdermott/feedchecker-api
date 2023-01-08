@@ -49,8 +49,9 @@ pre {
   padding: var(--flowSpace);
 }
 code pre span {color:red;}
+code pre span em {font-style: normal;}
 code pre span em:nth-child(even) {color: blue;}
-code pre span em:nth-child(odd) {color: green;}
+code pre span em:nth-child(odd) {color: green; font-weight: 700;}
 #change, #additional {
   margin-right:var(--flowSpace);
   display:flex;
