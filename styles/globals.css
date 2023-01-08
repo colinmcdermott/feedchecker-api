@@ -9,7 +9,7 @@ html,body,main {
 }
 body {background-color:#e9e9e9;}
 body, input, label, p {
-  font: 400 normal 20px/32px -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,sans-serif;
+  font: 400 normal 22px/35px -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,sans-serif;
 }
 @media (prefers-color-scheme: dark) {
   html {
