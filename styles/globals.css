@@ -32,7 +32,7 @@ section.statsWindow {
 code {
   white-space: pre-wrap;
   background: var(--lightBackground);
-  padding: 1px;
+  padding: 0 5px;
   border-radius: 3px;
 }
 pre {
