@@ -16,9 +16,9 @@ input:-webkit-autofill:active{
 }
 body {
   background-color:var(--background);
+  font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 body, input, label {
-  font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 22px;
   font-weight: 500;
   line-height: 35px;
