@@ -113,12 +113,12 @@ function FeedChecker() {
 
           <code>
               <pre>
-              <span class="1">&#123;</span><br/>
-                &nbsp;&nbsp;"size":123456,<br/>
-                &nbsp;&nbsp;"sizeChanged":true,<br/>
-                &nbsp;&nbsp;"webSubFetchSuccess":true,<br/>
-                &nbsp;&nbsp;"googlePingSuccess":true<br/>
-                <span class="1">&#125;</span>
+                  <span>&#123;</span><br/>
+                      &nbsp;&nbsp;"size":123456,<br/>
+                      &nbsp;&nbsp;"sizeChanged":true,<br/>
+                      &nbsp;&nbsp;"webSubFetchSuccess":true,<br/>
+                      &nbsp;&nbsp;"googlePingSuccess":true<br/>
+                  <span>&#125;</span>
             </pre>
           </code>
         
@@ -126,10 +126,10 @@ function FeedChecker() {
 
         <code>
           <pre>
-            <span class="1">&#123;</span><br/>
-            &nbsp;&nbsp;"size":123456,<br/>
-            &nbsp;&nbsp;"sizeChanged":false<br/>
-            <span class="1">&#125;</span>
+              <span>&#123;</span><br/>
+                  &nbsp;&nbsp;"size":123456,<br/>
+                  &nbsp;&nbsp;"sizeChanged":false<br/>
+              <span>&#125;</span>
           </pre>
         </code>
 

@@ -41,9 +41,7 @@ pre {
   background: var(--lightBackground);
   padding: var(--flowSpace);
 }
-pre span.1 {color:red;}
-pre span.2 {color:green;}
-pre span.3 {color:blue;}
+code pre span {color:red;}
 
 #change, #additional {
   margin-right:var(--flowSpace);
