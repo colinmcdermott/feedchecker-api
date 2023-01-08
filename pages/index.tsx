@@ -149,7 +149,11 @@ function FeedChecker() {
         <p>If the API responds with a 500 error, or any other error message, there has been an issue with the feed or one of the API services.</p>
         <p>Make sure you are using the <code>feed</code> URL parameter with the correct URL of your feed.</p>
 
-        <h3>Credit</h3>
+        <h3>Terms</h3>
+
+        <p>Only use this tool for resources that you own or have permission to access. Do not use the tool maliciously. Please do not submit an excessive number of requests to the API.</p>
+
+        <h3>Credit & Copyright</h3>
 
         <p>Tool created by <a href='https://twitter.com/ColinMcDermott' target='_blank'>Colin McDermott</a>.</p>
 
