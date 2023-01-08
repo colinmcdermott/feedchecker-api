@@ -7,7 +7,7 @@ interface Query {
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
   try {
-    const { feed = '' }: Query = req.query;
+    const { feed }: Query = req.query;
     if (!feed) {
       throw new Error('Feed URL must be a valid URL');
     }
