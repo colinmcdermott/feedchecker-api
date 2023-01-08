@@ -92,11 +92,11 @@ function FeedChecker() {
         <p>Send a request to the <code>/api/feedcache</code> API with a <code>feed</code> URL parameter and get a JSON response back. Eg <code>/api/feedcache?feed=https://example.com/feed/</code>.</p>
         <p>A typical successful API response where the feed size is new and pings have been sent will look like this: 
           <code><pre>
-            &#123;
-            "size":123456,
-            "sizeChanged":true,
-            "webSubFetchSuccess":true,
-            "googlePingSuccess":true
+            &#123;<br/>
+            &nbsp;&nbsp;"size":123456,<br/>
+            &nbsp;&nbsp;"sizeChanged":true,<br/>
+            &nbsp;&nbsp;"webSubFetchSuccess":true,<br/>
+            &nbsp;&nbsp;"googlePingSuccess":true<br/>
             &#125;
           </pre></code>
         </p>
