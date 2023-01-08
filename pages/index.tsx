@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
-import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import localFont from '@next/font/local';
 
 const ibmPlexSans = localFont({
