@@ -1,22 +1,20 @@
 import express from 'express';
-import request from 'request';
+import fetch from 'isomorphic-unfetch';
 
 const app = express();
 const feedSizes = new Map<string, number>();
 
-app.get('/api/feed', (req, res) => {
+app.get('/api/feed', async (req, res) => {
   const feed = req.query.feed as string;
   if (!feed) {
     return res.status(400).json({ error: 'Missing "feed" query parameter' });
   }
 
-  // Check the size of the feed
-  request(`https://nodefeedv.vercel.app/api/size?feed=${feed}`, (error, response, body) => {
-    if (error) {
-      return res.status(500).json({ error: 'Error checking feed size' });
-    }
-
-    const size = JSON.parse(body).size;
+  try {
+    // Check the size of the feed
+    const sizeResponse = await fetch(`https://nodefeedv.vercel.app/api/size?feed=${feed}`);
+    const sizeData = await sizeResponse.json();
+    const size = sizeData.size;
     const storedSize = feedSizes.get(feed);
     const sizeChanged = storedSize !== size;
 
@@ -25,17 +23,15 @@ app.get('/api/feed', (req, res) => {
 
     // Fetch the WebSub API if the size has changed
     if (sizeChanged) {
-      request(`https://nodefeedv.vercel.app/api/websub-fetch?feed=${feed}`, (error, response, body) => {
-        if (error) {
-          return res.status(500).json({ error: 'Error fetching WebSub API', size, sizeChanged });
-        }
-
-        return res.json({ size, sizeChanged, webSubFetchSuccess: true });
-      });
+      const webSubResponse = await fetch(`https://nodefeedv.vercel.app/api/websub-fetch?feed=${feed}`);
+      const webSubSuccess = webSubResponse.ok;
+      return res.json({ size, sizeChanged, webSubFetchSuccess: webSubSuccess });
     } else {
       return res.json({ size, sizeChanged });
     }
-  });
+  } catch (error) {
+    return res.status(500).json({ error: 'Error checking feed size or fetching WebSub API' });
+  }
 });
 
 const port = process.env.PORT || 3000;
