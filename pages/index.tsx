@@ -119,7 +119,7 @@ function FeedChecker() {
 
         <p>A typical successful API response where the feed size is new and pings have been sent will look like this:</p> 
 
-          <code class='json'>
+          <code className='json'>
               <pre>
                   <span>&#123;</span><br/>
                     <span><em>"size"</em>:<em>123456</em>,</span><br/>
@@ -132,7 +132,7 @@ function FeedChecker() {
         
         <p>If the feed size is unchanged, the response will look like this:</p>
 
-        <code class='json'>
+        <code className='json'>
           <pre>
               <span>&#123;</span><br/>
                 <span><em>"size"</em>:<em>123456</em>,</span><br/>
