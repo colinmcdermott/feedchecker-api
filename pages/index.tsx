@@ -68,6 +68,7 @@ function FeedChecker() {
         <link rel='canonical' href='https://feedping.dev/' />
         <link rel='icon' type='image/svg+xml' href='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22256%22 height=%22256%22 viewBox=%220 0 100 100%22><text x=%2250%%22 y=%2250%%22 dominant-baseline=%22central%22 text-anchor=%22middle%22 font-size=%2294%22>👋</text></svg>' />
       </Head>
+      <h1>👋 Feed Ping Tool</h1>
       <section>
         <form className='feedCheckForm' onSubmit={handleSubmit}>
           <label htmlFor='hubURL'>RSS Feed URL:</label>
@@ -103,8 +104,6 @@ function FeedChecker() {
       </section>
       
       <section>
-
-        <h1>👋 Feed Ping Tool</h1>
 
         <h2>What is this tool?</h2>
         <p>This tool checks an RSS feed or XML sitemap at 30 second intervals, and if it detects a new size - it sends a ping to Google's <a href='https://pubsubhubbub.appspot.com/' target='_blank'>WebSub hub</a> and Google Search Console.</p>
