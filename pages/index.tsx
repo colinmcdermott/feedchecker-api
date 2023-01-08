@@ -65,7 +65,7 @@ function FeedChecker() {
     <main>
       <Head>
         <title>Node Feed Checker</title>
-        <link rel='canonical' href='https://feedping.dev/' />
+        <link rel='canonical' href='https://feedping.dev/'>
       </Head>
       <form className='feedCheckForm' onSubmit={handleSubmit}>
         <label htmlFor='hubURL'>RSS Feed URL:</label>
