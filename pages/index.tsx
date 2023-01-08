@@ -65,7 +65,7 @@ function FeedChecker() {
     <main>
       <Head>
         <title>Node Feed Checker</title>
-        <link rel="canonical" href="https://feedping.dev/" />
+        <link rel='canonical' href='https://feedping.dev/' >
       </Head>
       <form className='feedCheckForm' onSubmit={handleSubmit}>
         <label htmlFor='hubURL'>RSS Feed URL:</label>
@@ -81,6 +81,11 @@ function FeedChecker() {
         />
         <input type='submit' value='Submit' id='submit' />
       </form>
+      <h2>What is this tool?</h2>
+      <p>This tool checks an RSS feed or XML sitemap at 30 second intervals, and if it detects a new size - it sends a ping to Google's <a href='https://pubsubhubbub.appspot.com/' target='_blank'>WebSub hub</a> and Google Search Console.</p>
+      <p>This should trigger Google to crawl the specified feed immediately.</p>
+      <h3>URL Parameters</h3>
+      <p>You can use a <code>feed</code> URL parameter to pre-fill the feed URL, eg: <a href='/?feed=https://example.com/feed/' rel='nofollow'>?feed=https://example.com/feed/</a>.</p>
 
       {loading && <div id='loading'><p>Connecting to API...</p></div>}
       {feedSize && <div id='results'><p>API Success! Feed size: {feedSize} - Check interval: 30 seconds</p></div>}
