@@ -36,6 +36,12 @@ code {
   padding: 1px;
   border-radius: 3px;
 }
+pre {
+  display: inline-block;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  background: var(--lightBackground);
+}
 #change, #additional {
   margin-right:var(--flowSpace);
   display:flex;
