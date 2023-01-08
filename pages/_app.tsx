@@ -1,6 +1,7 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
-import localFont from '@next/font/local'
+import '../styles/globals.css';
+import type { AppProps } from 'next/app';
+import { link } from 'next/head';
+import localFont from '@next/font/local';
 
 const ibmPlexSans = localFont({
   src: [
@@ -17,8 +18,21 @@ const ibmPlexSans = localFont({
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <main className={ibmPlexSans.className}>
-      <Component {...pageProps} />
-    </main>
+    <>
+      {ibmPlexSans.src.map((font) => (
+        <link
+          key={font.path}
+          rel="preload"
+          href={font.path}
+          as="font"
+          type="font/woff2"
+          fetchpriority="high"
+          crossorigin
+        />
+      ))}
+      <main className={ibmPlexSans.className}>
+        <Component {...pageProps} />
+      </main>
+    </>
   );
 }
