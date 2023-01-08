@@ -107,8 +107,12 @@ function FeedChecker() {
 
         <h2>What is this tool?</h2>
 
-        <p>FeedPing.dev (currently in beta testing) checks an RSS feed or XML sitemap at 30 second intervals. If the app detects a new size - it sends a ping to Google's <a href='https://pubsubhubbub.appspot.com/' target='_blank'>WebSub hub</a> and Google Search Console.</p>
+        <p>FeedPing.dev (currently in beta testing) checks an RSS feed or XML sitemap and if the API detects a new size - it sends a ping to Google's <a href='https://pubsubhubbub.appspot.com/' target='_blank'>WebSub hub</a> and Google Search Console.</p>
         <p>This should trigger Google to crawl the specified feed immediately.</p>
+
+        <h3>Web UI</h3>
+
+        The Web UI checks a feed/sitemap at 30 second intervals.
 
         <h3>API</h3>
 
