@@ -39,6 +39,7 @@ pre {
   display: inline-block;
   white-space: pre-wrap;
   background: var(--lightBackground);
+  padding: var(--flowSpace);
 }
 #change, #additional {
   margin-right:var(--flowSpace);
