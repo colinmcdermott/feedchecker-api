@@ -115,7 +115,7 @@ function FeedChecker() {
         <p>The API takes a URL input, checks the size of the feed, then pings WebSub & Google if the feed has changed. The API stores the size of the file in memory so you can call the API server-side via a Cron job, without the risk of sending multiple pings.</p>
         <p>Send a request to the <code>/api/feedcache</code> API with a <code>feed</code> URL parameter and get a JSON response back. For example:</p>
         
-        <code><pre><span>https://feedping.dev/api/feedcache?<em style='margin-left:0'>feed=</em><em>https://example.com/feed/</em></span></pre></code>
+        <code><pre><span>https://feedping.dev/api/feedcache?<em style="margin-left:0">feed=</em><em>https://example.com/feed/</em></span></pre></code>
 
         <p>A typical successful API response where the feed size is new and pings have been sent will look like this:</p> 
 
