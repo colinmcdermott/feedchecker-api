@@ -19,17 +19,19 @@ const ibmPlexSans = localFont({
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
-      {ibmPlexSans.src.map((font) => (
-        <link
-          key={font.path}
-          rel="preload"
-          href={font.path}
-          as="font"
-          type="font/woff2"
-          fetchpriority="high"
-          crossorigin
-        />
-      ))}
+      <Head>
+        {ibmPlexSans.src.map((font) => (
+          <link
+            key={font.path}
+            rel="preload"
+            href={font.path}
+            as="font"
+            type="font/woff2"
+            crossorigin
+            fetchPriority="high"
+          />
+        ))}
+      </Head>
       <main className={ibmPlexSans.className}>
         <Component {...pageProps} />
       </main>
