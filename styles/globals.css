@@ -29,7 +29,7 @@ a:any-link {
   color:rebeccapurple;
 }
 a:any-link:hover {
-  text-decoration: double;
+  text-decoration-thickness: 3px;
 }
 section.statsWindow {
   display: flex;
