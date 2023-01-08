@@ -2,4 +2,4 @@
 
 Checks and pings RSS feeds and sitemaps.
 
-https://feeding.dev
+https://feedping.dev
