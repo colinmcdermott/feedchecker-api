@@ -77,7 +77,7 @@ pre {
   padding: var(--flowSpace);
 }
 code pre span {color:magenta;}
-code pre span em:first-of-type {margin-left: var(--flowSpace);}
+code.json pre span em:first-of-type {margin-left: var(--flowSpace);}
 code pre span em {font-style: normal;}
 code pre span em:nth-child(even) {color: blue;}
 code pre span em:nth-child(odd) {color: green;}
