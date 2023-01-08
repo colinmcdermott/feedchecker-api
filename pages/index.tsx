@@ -115,10 +115,10 @@ function FeedChecker() {
           <code>
               <pre>
                   <span>&#123;</span><br/>
-                      &nbsp;&nbsp;"size":123456,<br/>
-                      &nbsp;&nbsp;"sizeChanged":true,<br/>
-                      &nbsp;&nbsp;"webSubFetchSuccess":true,<br/>
-                      &nbsp;&nbsp;"googlePingSuccess":true<br/>
+                    <span>&nbsp;&nbsp;<em>"size"</em>:<em>123456</em>,</span><br/>
+                    <span>&nbsp;&nbsp;<em>"sizeChanged"</em>:<em>true</em>,</span><br/>
+                    <span>&nbsp;&nbsp;<em>"webSubFetchSuccess"</em>:<em>true</em>,</span><br/>
+                    <span>&nbsp;&nbsp;<em>"googlePingSuccess"</em>:<em>true</em></span><br/>
                   <span>&#125;</span>
             </pre>
           </code>
@@ -128,8 +128,8 @@ function FeedChecker() {
         <code>
           <pre>
               <span>&#123;</span><br/>
-                  &nbsp;&nbsp;"size":123456,<br/>
-                  &nbsp;&nbsp;"sizeChanged":false<br/>
+                <span>&nbsp;&nbsp;<em>"size"</em>:<em>123456</em>,</span><br/>
+                <span>&nbsp;&nbsp;<em>"sizeChanged"</em>:<em>false</em></span><br/>
               <span>&#125;</span>
           </pre>
         </code>
