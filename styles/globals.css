@@ -26,7 +26,10 @@ section p {
   max-width: 75ch;
 }
 a:any-link {
-  color:color-mix(rebeccapurple, blue);
+  color:rebeccapurple;
+}
+a:any-link:hover {
+  text-decoration: double;
 }
 section.statsWindow {
   display: flex;
