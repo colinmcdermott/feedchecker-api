@@ -3,14 +3,14 @@ import fetch from 'isomorphic-unfetch';
 const NodeCache = require('node-cache');
 
 const app = express();
-const feedSizeCache = new NodeCache({ stdTTL: 7200 /* seconds */ }); // Extend cache time to 15 minutes
+const feedSizeCache = new NodeCache({ stdTTL: 900 /* seconds */ }); // Extend cache time to 15 minutes
 
 // Set the correct API keys
-const API_KEYS = ['VwhcWAvpBCHkd5wxLV', 'EeEh9JNR9pD6XvZxyw', 'j7WgRt9tkhxfTgyNCu'];
+const API_KEYS = ['1234', '4567', '8910'];
 
 app.get('/api/feedcache', async (req, res) => {
     // Validate the API key
-    if (!API_KEYS.includes(req.query.apiKey)) {
+    if (typeof req.query.apiKey === 'string' && !API_KEYS.includes(req.query.apiKey)) {
       return res.status(401).json({ error: 'Invalid API key' });
     }
   
@@ -56,4 +56,3 @@ const fetchGooglePingAPI = async (feed: string) => {
 }
 
 export default app;
-``
