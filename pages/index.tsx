@@ -109,8 +109,8 @@ function FeedChecker() {
         <code>
           <pre>
             &#123;<br/>
-            "size":123456,<br/>
-            "sizeChanged":false<br/>
+            &nbsp;&nbsp;"size":123456,<br/>
+            &nbsp;&nbsp;"sizeChanged":false<br/>
             &#125;
           </pre>
         </code>
