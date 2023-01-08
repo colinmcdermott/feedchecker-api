@@ -20,7 +20,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        {ibmPlexSans.src.map((font) => (
+        {ibmPlexSans.fonts.map((font) => (
           <link
             key={font.path}
             rel="preload"
