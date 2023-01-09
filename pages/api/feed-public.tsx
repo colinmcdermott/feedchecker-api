@@ -9,7 +9,10 @@ const feedSizeCache = new NodeCache({ stdTTL: 14400 /* seconds */ });
 
 const ratelimit = new Ratelimit({
   redis: Redis.fromEnv(),
-  limiter: Ratelimit.slidingWindow(3, '10 s')
+  limiter: [
+    Ratelimit.slidingWindow(3, '10 s'),
+    Ratelimit.slidingWindow(60, '1 h')
+  ]
 });
 
 app.get('/api/feed-public', async (req, res) => {
