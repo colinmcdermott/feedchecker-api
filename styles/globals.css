@@ -32,7 +32,7 @@ main {
   flex-direction: column;
   align-items: flex-start;
 }
-main, aside, form, section, #debug {
+main, aside, form, section {
   padding: var(--flowSpace);
 }
 section {
