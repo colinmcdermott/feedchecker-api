@@ -116,9 +116,9 @@ function FeedChecker() {
 
         <h3>API</h3>
 
-        <p>Send a request to the <code>/api/feedcache</code> API with your RSS feed or XML sitemap URL using a <code>feed</code> URL parameter, and get a JSON response back. For example:</p>
+        <p>Send a request to the <code>/api/feed</code> API with your RSS feed or XML sitemap URL using a <code>feed</code> URL parameter, and get a JSON response back. For example:</p>
         
-        <code><pre><span>https://feedping.dev/api/feedcache<em>?feed=</em><em>https://example.com/feed/</em></span></pre></code>
+        <code><pre><span>https://feedping.dev/api/feed<em>?feed=</em><em>https://example.com/feed/</em></span></pre></code>
 
         <p>The API takes a URL input, checks the size of the feed, then pings WebSub & Google if the feed has changed. The API stores the size of the file in memory so you can call the API server-side via a Cron job, without the risk of sending multiple pings.</p>
 
