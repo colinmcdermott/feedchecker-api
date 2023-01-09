@@ -62,7 +62,7 @@ const handleRequest = async (req: Request, res: Response, next: NextFunction) =>
   }
 };
 
-app.get('/api/feedcache', async (req, res, next) => {
+app.get('/api/feed', async (req, res, next) => {
   // Check if the request is from a paid user
   if ((req as any).isPaidUser) {
     // Proceed with handling the request
