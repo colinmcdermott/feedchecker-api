@@ -90,10 +90,10 @@ function FeedChecker() {
         {loading && <div id='loading'><p>Connecting to API...</p></div>}
         {feedSize && <div id='results'><p>API Success! Feed size: {feedSize} - Check interval: 30 seconds</p></div>}
         
-        <div id='change'>{change}</div>
+        <div id='change'><p>{change}</p></div>
         {lastPing ? (
           <div id='lastPing'>
-            Last ping sent: <time>{lastPing}</time>
+            <p>Last ping sent: <time>{lastPing}</time></p>
           </div>
         ) : (
           <div id='lastPing'></div>

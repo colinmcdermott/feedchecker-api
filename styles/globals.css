@@ -56,7 +56,7 @@ a:any-link:hover {
 }
 section.statsWindow {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
   max-height:400px;
   overflow-x: hidden;
