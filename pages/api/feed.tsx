@@ -13,7 +13,7 @@ const ratelimit = new Ratelimit({
   limiter: Ratelimit.slidingWindow(60, '1 h')
 });
 
-const apiKeys = ['abcdefghijklmno', 'pqrstuvwxyz123'];
+const apiKeys = ['U6M05O7nQabjMlGdJuo9UiSxFrgYdTak', 'tZ07kgxshMNtd2GLqqlr6FuquArxLGy1'];
 
 const checkApiKey = (req: Request, res: Response, next: NextFunction) => {
   // Check if the API key is supplied in the HTTP headers
