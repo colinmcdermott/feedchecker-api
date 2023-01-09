@@ -85,12 +85,11 @@ function FeedChecker() {
         <input type='submit' value='Submit' id='submit' />
       </form>
 
-      <section>
+      <section className='statsWindow'>
+
         {loading && <div id='loading'><p>Connecting to API...</p></div>}
         {feedSize && <div id='results'><p>API Success! Feed size: {feedSize} - Check interval: 30 seconds</p></div>}
-      </section>
-
-      <section className='statsWindow'>
+        
         <div id='change'>{change}</div>
         {lastPing ? (
           <div id='lastPing'>
@@ -99,6 +98,7 @@ function FeedChecker() {
         ) : (
           <div id='lastPing'></div>
         )}
+        
       </section>
 
       {debugLink && <div id='debug'><p><a href={debugLink} target='_blank'>Debug</a></p></div>}
