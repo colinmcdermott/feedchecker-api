@@ -15,25 +15,19 @@ const ratelimit = new Ratelimit({
 
 const apiKeys = ['abcdefghijklmno', 'pqrstuvwxyz123'];
 
+// Middleware function to check for a valid API key
 const checkApiKey = (req: Request, res: Response, next: NextFunction) => {
   // Check if the API key is supplied in the HTTP headers
   const apiKey = req.headers['x-api-key'] as string;
   if (apiKeys.includes(apiKey)) {
     // Set a flag in the request object indicating that the request is from a paid user
     (req as any).isPaidUser = true;
-    // Add a header to the response indicating that a valid API key was provided
-    res.setHeader('x-api-key-valid', 'true');
   } else {
     // Check if the API key is supplied in the URL parameters
     const apiKey = req.query.apiKey as string;
     if (apiKeys.includes(apiKey)) {
       // Set a flag in the request object indicating that the request is from a paid user
       (req as any).isPaidUser = true;
-      // Add a header to the response indicating that a valid API key was provided
-      res.setHeader('x-api-key-valid', 'true');
-    } else {
-      // Add a header to the response indicating that a valid API key was not provided
-      res.setHeader('x-api-key-valid', 'false');
     }
   }
   next();
