@@ -15,8 +15,8 @@ const ratelimit = new Ratelimit({
 app.get('/api/feed-public', async (req, res) => {
   // Use the client's IP address before any anonymization as the identifier
   const identifier = req.headers['cf-connecting-ip'] as string;
-  const { success } = await ratelimit.limit(identifier);
-  if (!success) {
+  const response = await ratelimit.limit(identifier);
+  if (!response.success) {
     return res.status(429).send('Too many requests');
   }
 
