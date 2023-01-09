@@ -41,8 +41,6 @@ const handleRequest = async (req: Request, res: Response, next: NextFunction) =>
   if (!feed) {
     return res.status(400).json({ error: 'Missing "feed" query parameter' });
   }
-
-  const start = process.hrtime();
   try {
     const size = await getFeedSize(feed);
     const storedSize = feedSizeCache.get(feed);
@@ -55,28 +53,28 @@ const handleRequest = async (req: Request, res: Response, next: NextFunction) =>
     if (sizeChanged) {
       const webSubSuccess = await fetchWebSubAPI(feed);
       const googlePingSuccess = await fetchGooglePingAPI(feed);
-
-    // Calculate the latency of the request
-    const end = process.hrtime(start);
-    const latency = `${end[0] * 1000 + end[1] / 1000000}ms`;
-
-    return res.json({
-      size,
-      sizeChanged,
-      latency,
-      apiKeyUsed: (req as any).isPaidUser || false
-    });
-      }
+      return res.json({ size, sizeChanged, webSubFetchSuccess: webSubSuccess, googlePingSuccess });
+    } else {
+      return res.json({ size, sizeChanged });
+    }
   } catch (error) {
     return res.status(500).json({ error: 'Error checking feed size or fetching WebSub/Google Ping APIs' });
   }
 };
 
-app.get('/api/feed', async (req: Request, res: Response, next: NextFunction) => {
-  const response = await ratelimit.limit({ req, res });
-  if (response.limited) {
-    res.status(429).json({ error: 'Too many requests' });
+app.get('/api/feed', async (req, res, next) => {
+  // Check if the request is from a paid user
+  if ((req as any).isPaidUser) {
+    // Proceed with handling the request
+    handleRequest(req, res, next);
   } else {
+    // Check if the request exceeds the rate limit
+    const identifier = req.headers['cf-connecting-ip'] as string;
+    const response = await ratelimit.limit(identifier);
+    if (!response.success) {
+      return res.status(429).send('Too many requests');
+    }
+    // Proceed with handling the request
     handleRequest(req, res, next);
   }
 });
