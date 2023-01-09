@@ -73,7 +73,7 @@ const handleRequest = async (req: Request, res: Response, next: NextFunction) =>
 };
 
 app.get('/api/feed', async (req: Request, res: Response, next: NextFunction) => {
-  const response = await ratelimit.limit();
+  const response = await ratelimit.limit({ req, res });
   if (response.limited) {
     res.status(429).json({ error: 'Too many requests' });
   } else {
