@@ -7,9 +7,10 @@ const NodeCache = require('node-cache');
 const app = express();
 const feedSizeCache = new NodeCache({ stdTTL: 14400 /* seconds */ });
 
+// Rate limiter config (upstash/ratelimit)
 const ratelimit = new Ratelimit({
   redis: Redis.fromEnv(),
-  limiter: Ratelimit.slidingWindow(3, '10 s')
+  limiter: Ratelimit.slidingWindow(60, '1 h')
 });
 
 app.get('/api/feedcache', async (req, res) => {
