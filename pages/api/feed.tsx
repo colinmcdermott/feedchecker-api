@@ -17,10 +17,18 @@ const apiKeys = ['abcdefghijklmno', 'pqrstuvwxyz123'];
 
 // Middleware function to check for a valid API key
 const checkApiKey = (req: Request, res: Response, next: NextFunction) => {
+  // Check if the API key is supplied in the HTTP headers
   const apiKey = req.headers['x-api-key'];
   if (apiKeys.includes(apiKey)) {
     // Set a flag in the request object indicating that the request is from a paid user
     (req as any).isPaidUser = true;
+  } else {
+    // Check if the API key is supplied in the URL parameters
+    const apiKey = req.query.apiKey;
+    if (apiKeys.includes(apiKey)) {
+      // Set a flag in the request object indicating that the request is from a paid user
+      (req as any).isPaidUser = true;
+    }
   }
   next();
 };
@@ -54,7 +62,7 @@ const handleRequest = async (req: Request, res: Response, next: NextFunction) =>
   }
 };
 
-app.get('/api/feed', async (req, res, next) => {
+app.get('/api/feedcache', async (req, res, next) => {
   // Check if the request is from a paid user
   if ((req as any).isPaidUser) {
     // Proceed with handling the request
@@ -70,7 +78,7 @@ app.get('/api/feed', async (req, res, next) => {
     handleRequest(req, res, next);
   }
 });
-    
+
 const getFeedSize = async (feed: string) => {
   const sizeResponse = await fetch(`https://nodefeedv.vercel.app/api/size?feed=${feed}`);
   return (await sizeResponse.json()).size;
