@@ -10,7 +10,7 @@ const feedSizeCache = new NodeCache({ stdTTL: 14400 /* seconds */ });
 // Rate limiter config (upstash/ratelimit)
 const ratelimit = new Ratelimit({
   redis: Redis.fromEnv(),
-  limiter: Ratelimit.slidingWindow(60, '1 h')
+  limiter: Ratelimit.slidingWindow(30, '1 h')
 });
 
 const apiKeys = ['U6M05O7nQabjMlGdJuo9UiSxFrgYdTak', 'tZ07kgxshMNtd2GLqqlr6FuquArxLGy1'];
