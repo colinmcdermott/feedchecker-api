@@ -1,6 +1,6 @@
 import express from 'express';
 import fetch from 'isomorphic-unfetch';
-import { Ratelimit, RatelimitResponse } from '@upstash/ratelimit';
+import { Ratelimit } from '@upstash/ratelimit';
 import { Redis } from '@upstash/redis';
 const NodeCache = require('node-cache');
 
