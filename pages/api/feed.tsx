@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import fetch from 'isomorphic-unfetch';
 import { Ratelimit } from '@upstash/ratelimit';
 import { Redis } from '@upstash/redis';
