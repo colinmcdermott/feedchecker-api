@@ -17,7 +17,7 @@ const apiKeys = ['U6M05O7nQabjMlGdJuo9UiSxFrgYdTak', 'tZ07kgxshMNtd2GLqqlr6FuquA
 
 const checkApiKey = (req: Request, res: Response, next: NextFunction) => {
   // Check if the API key is supplied in the HTTP headers
-  const apiKey = req.headers['x-api-key'] as string;
+  const apiKey = req.headers['feedping-api-key'] as string;
   if (apiKeys.includes(apiKey)) {
     // Set a flag in the request object indicating that the request is from a paid user
     (req as any).isPaidUser = true;
