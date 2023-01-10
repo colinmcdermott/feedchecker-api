@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import FeedCheckerHTML from './FeedCheckerHTML';
+import FeedCheckerHTML from './feedchecker';
 
 function FeedChecker() {
   const [hubURL, setHubURL] = useState('');
