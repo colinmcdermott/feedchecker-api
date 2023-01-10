@@ -1,7 +1,6 @@
-import React from 'react';
-
 export const Content = () => (
-  <>
+    <div>
+      <section>
 
 <h2>What is this tool?</h2>
 
@@ -72,5 +71,6 @@ The Web UI checks a feed/sitemap at 30 second intervals.
 
 <p>Tool created by <a href='https://twitter.com/ColinMcDermott' target='_blank'>Colin McDermott</a>.</p>
 
-  </>
+    </section>
+  </div>
 );
