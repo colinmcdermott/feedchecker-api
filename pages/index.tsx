@@ -120,7 +120,7 @@ function FeedChecker() {
         
         <code><pre><span>https://feedping.dev/api/feed<em>?feed=</em><em>https://example.com/feed/</em></span></pre></code>
 
-        <p>The API takes a URL input, checks the size of the feed, then pings WebSub & Google if the feed has changed. The API stores the size of the file in memory so you can call the API server-side via a Cron job, without the risk of sending multiple pings.</p>
+        <p>The API takes a URL input, checks the size of the feed, then pings the Google WebSub hub & Search Console if the feed has changed. The API stores the size of the file in memory so you can call the API server-side via a Cron job, without the risk of sending multiple pings.</p>
 
         <p>A typical successful API response where the feed size is new and pings have been sent will look like this:</p> 
 
