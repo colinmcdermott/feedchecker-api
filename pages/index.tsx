@@ -156,7 +156,7 @@ function FeedChecker() {
 
         <p>To submit a request using an API include the <code>apiKey</code> URL parameter, eg:</p>
 
-        <code><pre><span>?feed=<em>https://example.com/feed/</em><em>&apiKey=XXXXXXXX</em></span></pre></code>
+        <code><pre><span>https://feedping.dev/api/feed<em>?feed=https://example.com/feed/</em><em>&apiKey=abcdefghijklmno</em></span></pre></code>
 
         <p>You can also supply the API key as an <code>feedping-api-key</code> HTTP header in the request.</p>
 
