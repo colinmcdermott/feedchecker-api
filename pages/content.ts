@@ -1,7 +1,5 @@
-import React from 'react';
-
 export const Content = () => (
-  <>
+  <div>
     <section>
 
 <h2>What is this tool?</h2>
@@ -23,26 +21,26 @@ The Web UI checks a feed/sitemap at 30 second intervals.
 
 <p>A typical successful API response where the feed size is new and pings have been sent will look like this:</p> 
 
-  <code className='json'>
-      <pre>
-          <span>&#123;</span><br/>
-            <span><em>"size"</em>:<em>123456</em>,</span><br/>
-            <span><em>"sizeChanged"</em>:<em>true</em>,</span><br/>
-            <span><em>"webSubFetchSuccess"</em>:<em>true</em>,</span><br/>
-            <span><em>"googlePingSuccess"</em>:<em>true</em></span><br/>
-          <span>&#125;</span>
-    </pre>
-  </code>
+<code className='json'>
+    <pre>
+        <span>&#123;</span><br/>
+          <span><em>"size"</em>:<em>123456</em>,</span><br/>
+          <span><em>"sizeChanged"</em>:<em>true</em>,</span><br/>
+          <span><em>"webSubFetchSuccess"</em>:<em>true</em>,</span><br/>
+          <span><em>"googlePingSuccess"</em>:<em>true</em></span><br/>
+        <span>&#125;</span>
+  </pre>
+</code>
 
 <p>If the feed size is unchanged, the response will look like this:</p>
 
 <code className='json'>
-  <pre>
-      <span>&#123;</span><br/>
-        <span><em>"size"</em>:<em>123456</em>,</span><br/>
-        <span><em>"sizeChanged"</em>:<em>false</em></span><br/>
-      <span>&#125;</span>
-  </pre>
+<pre>
+    <span>&#123;</span><br/>
+      <span><em>"size"</em>:<em>123456</em>,</span><br/>
+      <span><em>"sizeChanged"</em>:<em>false</em></span><br/>
+    <span>&#125;</span>
+</pre>
 </code>
 
 <p>If the API responds with a 500 error, or any other error message, there has been an issue with the feed or one of the API services.</p>
@@ -73,6 +71,6 @@ The Web UI checks a feed/sitemap at 30 second intervals.
 
 <p>Tool created by <a href='https://twitter.com/ColinMcDermott' target='_blank'>Colin McDermott</a>.</p>
 
-</section>
-  </>
+  </section>
+</div>
 );
