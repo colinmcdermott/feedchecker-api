@@ -148,15 +148,21 @@ function FeedChecker() {
 
         <p>If the API responds with a 500 error, or any other error message, there has been an issue with the feed or one of the API services.</p>
 
-        <h3>API Rate Limits & API Keys</h3>
-
         <p>Make sure you are using the <code>feed</code> URL parameter with the correct URL of your feed.</p>
 
-        <p>The API is currently rate-limited to 30 requests per hour. For an API key to go above this limit get in contact.</p>
+        <h3>API Rate Limits & API Keys</h3>
+
+        <p>The API is currently rate-limited to 30 requests per hour. For an API key to go above this limit please get in contact.</p>
 
         <p>To submit a request using an API include the <code>apiKey</code> URL parameter, eg:</p>
 
         <code><pre><span>?feed=<em>https://example.com/feed/</em><em>&apiKey=XXXXXXXX</em></span></pre></code>
+
+        <p>You can also supply the API key as an <code>feedping-api-key</code> HTTP header in the request.</p>
+
+        <p>For example to make a GET request to the <code>/api/feed</code> route with an API key of <code>abcdefghijklmno</code>, use a command like this:</p>
+
+        <code><pre><span>curl -H "feedping-api-key: abcdefghijklmno" https://feedping.dev/api/feed?feed=https://example.com/feed/</span></pre></code>
 
         <h3>Terms</h3>
 
