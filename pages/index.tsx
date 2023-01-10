@@ -147,14 +147,20 @@ function FeedChecker() {
         </code>
 
         <p>If the API responds with a 500 error, or any other error message, there has been an issue with the feed or one of the API services.</p>
-        
+
+        <h3>API Rate Limits & API Keys</h3>
+
         <p>Make sure you are using the <code>feed</code> URL parameter with the correct URL of your feed.</p>
 
         <p>The API is currently rate-limited to 30 requests per hour. For an API key to go above this limit get in contact.</p>
 
+        <p>To submit a request using an API include the <code>apiKey</code> URL parameter, eg:</p>
+
+        <code><pre><span>?feed=<em>https://example.com/feed/</em><em>&apiKey=XXXXXXXX</em></span></pre></code>
+
         <h3>Terms</h3>
 
-        <p>Only use this tool for resources that you own or have permission to access. Do not use the tool maliciously. Please do not submit an excessive number of requests to the API.</p>
+        <p>Only use this tool to fetch URLs for resources that you own or have permission to access. Please do not submit an excessive number of requests to the API.</p>
 
         <h3>Credit & Copyright</h3>
 
