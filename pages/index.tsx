@@ -160,7 +160,7 @@ function FeedChecker() {
 
         <p>You can also supply the API key as an <code>feedping-api-key</code> HTTP header in the request.</p>
 
-        <p>For example to make a GET request to the <code>/api/feed</code> route with an API key of <code>abcdefghijklmno</code>, use a command like this:</p>
+        <p>For example to make a GET request to the <code>/api/feed</code> route with an API key of abcdefghijklmno, use a command like this:</p>
 
         <code><pre><span>curl -H "feedping-api-key: abcdefghijklmno" https://feedping.dev/api/feed?feed=https://example.com/feed/</span></pre></code>
 
