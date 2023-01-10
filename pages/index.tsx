@@ -164,6 +164,8 @@ function FeedChecker() {
 
         <code><pre><span>curl -H "feedping-api-key: abcdefghijklmno" https://feedping.dev/api/feed?feed=https://example.com/feed/</span></pre></code>
 
+        <p>Responses with a valid API key will include a HTTP header with <code>feedping-api-key-valid: true</code>.</p>
+
         <h3>Terms</h3>
 
         <p>Only use this tool to fetch URLs for resources that you own or have permission to access. Please do not submit an excessive number of requests to the API.</p>
