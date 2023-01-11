@@ -65,8 +65,10 @@ function FeedChecker() {
 
   return (
     <main>
-      <Header />
-
+      <Head>
+        <Header />
+      </Head>
+      
       <form className='feedCheckForm' onSubmit={handleSubmit}>
         <label htmlFor='hubURL'>RSS Feed URL:</label>
         <input
