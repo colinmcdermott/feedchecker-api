@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
-import HomeContent from './homecontent';
+import HomeContent from './homecontent.tsx';
 
 function FeedChecker() {
   const [hubURL, setHubURL] = useState('');
