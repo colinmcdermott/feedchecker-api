@@ -42,6 +42,7 @@ const checkApiKey = (req: Request, res: Response, next: NextFunction) => {
     } else {
       // Add a header to the response indicating that a valid API key was not provided
       res.setHeader('feedping-api-key-valid', 'false');
+    }
   }
   const feed = req.query.feed as string;
   if (!feed) {
@@ -57,6 +58,7 @@ app.use(checkApiKey);
   
 // Middleware function to handle rate limiting and request processing
 const handleRequest = async (req: Request, res: Response, next: NextFunction) => {
+  const feed = req.query.feed as string;
   try {
     const size = await getFeedSize(feed);
     const storedSize = feedSizeCache.get(feed);
@@ -87,7 +89,7 @@ app.get('/api/rss', async (req, res, next) => {
     next(new CustomError('Unauthorized', 401));
   }
 });
-
+  
 // Centralized error handling middleware
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   if (err instanceof CustomError) {
