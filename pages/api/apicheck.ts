@@ -1,5 +1,7 @@
-const apiKeys = ['U6M05O7nQabjMlGdJuo9UiSxFrgYdTak', 'tZ07kgxshMNtd2GLqqlr6FuquArxLGy1'];
+import { Request, Response, NextFunction } from 'express';
 import { InvalidApiKeyError } from './customerror'
+
+const apiKeys = ['U6M05O7nQabjMlGdJuo9UiSxFrgYdTak', 'tZ07kgxshMNtd2GLqqlr6FuquArxLGy1'];
 
 export const checkApiKey = (req: Request, res: Response, next: NextFunction) => {
   // Check if the API key is supplied in the HTTP headers
