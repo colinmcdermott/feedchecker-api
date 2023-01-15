@@ -4,9 +4,11 @@ import { Ratelimit } from '@upstash/ratelimit';
 import { Redis } from '@upstash/redis';
 const NodeCache = require('node-cache');
 import { MissingFeedParameterError, InvalidFeedParameterError, InvalidApiKeyError, FetchError } from './customerror'
+import { checkApiKey } from './apicheck';
 
 const app = express();
 const feedSizeCache = new NodeCache({ stdTTL: 14400 /* seconds */ });
+
 const feedRegex = new RegExp(/^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/);
 
 const checkFeedUrl = (req: Request, res: Response, next: NextFunction) => {
@@ -25,33 +27,6 @@ const ratelimit = new Ratelimit({
   redis: Redis.fromEnv(),
   limiter: Ratelimit.slidingWindow(30, '1 h')
 });
-
-const apiKeys = ['U6M05O7nQabjMlGdJuo9UiSxFrgYdTak', 'tZ07kgxshMNtd2GLqqlr6FuquArxLGy1'];
-
-const checkApiKey = (req: Request, res: Response, next: NextFunction) => {
-  // Check if the API key is supplied in the HTTP headers
-  const apiKey = req.headers['feedping-api-key'] as string;
-  if (apiKeys.includes(apiKey)) {
-    // Set a flag in the request object indicating that the request is from a paid user
-    (req as any).isPaidUser = true;
-    // Add a header to the response indicating that a valid API key was provided
-    res.setHeader('feedping-api-key-valid', 'true');
-  } else {
-    // Check if the API key is supplied in the URL parameters
-    const apiKey = req.query.apiKey as string;
-    if (apiKeys.includes(apiKey)) {
-      // Set a flag in the request object indicating that the request is from a paid user
-      (req as any).isPaidUser = true;
-      // Add a header to the response indicating that a valid API key was provided
-      res.setHeader('feedping-api-key-valid', 'true');
-    } else {
-      // Add a header to the response indicating that a valid API key was not provided
-      res.setHeader('feedping-api-key-valid', 'false');
-      throw new InvalidApiKeyError();
-    }
-  }
-  next();
-};
 
 app.use(checkFeedUrl);
 app.use(checkApiKey);
