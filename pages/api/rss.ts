@@ -3,13 +3,7 @@ import fetch from 'isomorphic-unfetch';
 import { Ratelimit } from '@upstash/ratelimit';
 import { Redis } from '@upstash/redis';
 const NodeCache = require('node-cache');
-
-class CustomError extends Error {
-  constructor(message: string, public statusCode: number) {
-    super(message);
-    this.name = 'CustomError';
-  }
-}
+import { MissingFeedParameterError, InvalidFeedParameterError, InvalidApiKeyError, FetchError } from './customError'
 
 const app = express();
 const feedSizeCache = new NodeCache({ stdTTL: 14400 /* seconds */ });
@@ -42,14 +36,15 @@ const checkApiKey = (req: Request, res: Response, next: NextFunction) => {
     } else {
       // Add a header to the response indicating that a valid API key was not provided
       res.setHeader('feedping-api-key-valid', 'false');
+      throw new InvalidApiKeyError();
     }
   }
   const feed = req.query.feed as string;
   if (!feed) {
-    throw new CustomError('Missing feed parameter', 400);
+    throw new MissingFeedParameterError();
   }
   if (!feedRegex.test(feed)) {
-    throw new CustomError('Invalid feed parameter, should be a valid URL', 400);
+    throw new InvalidFeedParameterError();
   }
   next();
 };
@@ -76,10 +71,25 @@ const handleRequest = async (req: Request, res: Response, next: NextFunction) =>
       return res.json({ size, sizeChanged });
     }
   } catch (error) {
-    throw new CustomError('Error fetching feed size or WebSub/Google Ping APIs, please check that the feed URL is valid', 500);
+    next(new FetchError());
   }
 };
   
+// Centralized error handling middleware
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  if (err instanceof MissingFeedParameterError) {
+    return res.status(400).json({ message: err.message });
+  } else if (err instanceof InvalidFeedParameterError) {
+    return res.status(400).json({ message: err.message });
+  } else if (err instanceof InvalidApiKeyError) {
+    return res.status(401).json({ message: err.message });
+  } else if (err instanceof FetchError) {
+    return res.status(500).json({ message: err.message });
+  } else {
+    return res.status(500).json({ message: 'An unexpected error occurred' });
+  }
+});
+
 app.get('/api/rss', async (req, res, next) => {
   // Check if the request is from a paid user
   if ((req as any).isPaidUser) {
@@ -87,15 +97,6 @@ app.get('/api/rss', async (req, res, next) => {
     handleRequest(req, res, next);
   } else {
     next(new CustomError('Unauthorized', 401));
-  }
-});
-  
-// Centralized error handling middleware
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-  if (err instanceof CustomError) {
-    res.status(err.statusCode).json({ error: err.message });
-  } else {
-    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
   
