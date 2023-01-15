@@ -9,6 +9,17 @@ const app = express();
 const feedSizeCache = new NodeCache({ stdTTL: 14400 /* seconds */ });
 const feedRegex = new RegExp(/^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/);
 
+const checkFeedUrl = (req: Request, res: Response, next: NextFunction) => {
+  const feed = req.query.feed as string;
+  if (!feed) {
+    throw new MissingFeedParameterError();
+  }
+  if (!feedRegex.test(feed)) {
+    throw new InvalidFeedParameterError();
+  }
+  next();
+};
+
 // Rate limiter config (upstash/ratelimit)
 const ratelimit = new Ratelimit({
   redis: Redis.fromEnv(),
@@ -39,16 +50,10 @@ const checkApiKey = (req: Request, res: Response, next: NextFunction) => {
       throw new InvalidApiKeyError();
     }
   }
-  const feed = req.query.feed as string;
-  if (!feed) {
-    throw new MissingFeedParameterError();
-  }
-  if (!feedRegex.test(feed)) {
-    throw new InvalidFeedParameterError();
-  }
   next();
 };
 
+app.use(checkFeedUrl);
 app.use(checkApiKey);
   
 // Middleware function to handle rate limiting and request processing
