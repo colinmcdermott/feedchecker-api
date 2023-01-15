@@ -67,7 +67,14 @@ app.get('/api/rss', async (req, res, next) => {
     // Proceed with handling the request
     handleRequest(req, res, next);
   } else {
-    next(new InvalidApiKeyError());
+    // Check if the request exceeds the rate limit
+    const identifier = req.headers['cf-connecting-ip'] as string;
+    const response = await ratelimit.limit(identifier);
+    if (!response.success) {
+      return res.status(429).send('Too many requests');
+    }
+    // Proceed with handling the request
+    handleRequest(req, res, next);
   }
 });
   
