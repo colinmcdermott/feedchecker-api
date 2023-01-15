@@ -22,7 +22,7 @@ const ratelimit = new Ratelimit({
 // Check for valid API key, block if no valid key
 app.use(checkApiKey);
   
-// Middleware function to handle rate limiting and request processing
+// Middleware function to handle request processing
 const handleRequest = async (req: Request, res: Response, next: NextFunction) => {
   const feed = req.query.feed as string;
   try {
