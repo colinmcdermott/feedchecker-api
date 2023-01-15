@@ -5,7 +5,7 @@ import { Redis } from '@upstash/redis';
 const NodeCache = require('node-cache');
 import { MissingFeedParameterError, InvalidFeedParameterError, InvalidApiKeyError, FetchError } from './customerror'
 import checkApiKey from './checkApiKey';
-import { validateFeed } from './feedValidator'
+import { feedRegex, isValidFeed } from './feedValidator'
 
 const app = express();
 const feedSizeCache = new NodeCache({ stdTTL: 14400 /* seconds */ });
@@ -22,7 +22,6 @@ app.use(checkApiKey);
 const handleRequest = async (req: Request, res: Response, next: NextFunction) => {
   const feed = req.query.feed as string;
   try {
-    validateFeed(feed);
     const size = await getFeedSize(feed);
     const storedSize = feedSizeCache.get(feed);
     const sizeChanged = storedSize !== size;
@@ -64,7 +63,7 @@ app.get('/api/rss', async (req, res, next) => {
     try {
         const feed = req.query.feed as string;
         //validate the feed
-        validateFeed(feed);
+        isValidFeed(feed);
         // Proceed with handling the request
         handleRequest(req, res, next);
     } catch (error) {
