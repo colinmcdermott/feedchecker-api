@@ -42,22 +42,21 @@ const checkApiKey = (req: Request, res: Response, next: NextFunction) => {
     } else {
       // Add a header to the response indicating that a valid API key was not provided
       res.setHeader('feedping-api-key-valid', 'false');
-    }
+  }
+  const feed = req.query.feed as string;
+  if (!feed) {
+    throw new CustomError('Missing "feed" query parameter', 400);
+  }
+  if (!feedRegex.test(feed)) {
+    throw new CustomError('Invalid "feed" query parameter, it should be a valid URL', 400);
   }
   next();
 };
 
 app.use(checkApiKey);
-
-// Middleware function to handle rate limiting and request processing + Feed regex check
+  
+// Middleware function to handle rate limiting and request processing
 const handleRequest = async (req: Request, res: Response, next: NextFunction) => {
-  const feed = req.query.feed as string;
-  if (!feed) {
-    throw new CustomError('Missing feed query parameter', 400);
-  }
-  if (!feedRegex.test(feed)) {
-    throw new CustomError('Invalid feed query parameter, should be a valid URL', 400);
-  }
   try {
     const size = await getFeedSize(feed);
     const storedSize = feedSizeCache.get(feed);
@@ -75,10 +74,10 @@ const handleRequest = async (req: Request, res: Response, next: NextFunction) =>
       return res.json({ size, sizeChanged });
     }
   } catch (error) {
-    throw new CustomError('Error checking feed size or fetching WebSub/Google Ping APIs', 500);
+    throw new CustomError('Error fetching feed size or WebSub/Google Ping APIs, please check that the feed URL is valid', 500);
   }
 };
-    
+  
 app.get('/api/rss', async (req, res, next) => {
   // Check if the request is from a paid user
   if ((req as any).isPaidUser) {
@@ -88,16 +87,16 @@ app.get('/api/rss', async (req, res, next) => {
     next(new CustomError('Unauthorized', 401));
   }
 });
-    
+
 // Centralized error handling middleware
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   if (err instanceof CustomError) {
-    res.status(err.statusCode).send({ error: err.message });
+    res.status(err.statusCode).json({ error: err.message });
   } else {
-    res.status(500).send({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-
+  
 const getFeedSize = async (feed: string) => {
   const sizeResponse = await fetch(`https://nodefeedv.vercel.app/api/size?feed=${feed}`);
   return (await sizeResponse.json()).size;
