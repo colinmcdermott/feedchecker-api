@@ -5,22 +5,13 @@ import { Redis } from '@upstash/redis';
 const NodeCache = require('node-cache');
 import { MissingFeedParameterError, InvalidFeedParameterError, InvalidApiKeyError, FetchError } from './customerror'
 import { checkApiKey } from './apicheck';
+import { checkFeedUrl } from './feedcheck';
 
 const app = express();
 const feedSizeCache = new NodeCache({ stdTTL: 14400 /* seconds */ });
 
-const feedRegex = new RegExp(/^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/);
-
-const checkFeedUrl = (req: Request, res: Response, next: NextFunction) => {
-  const feed = req.query.feed as string;
-  if (!feed) {
-    throw new MissingFeedParameterError();
-  }
-  if (!feedRegex.test(feed)) {
-    throw new InvalidFeedParameterError();
-  }
-  next();
-};
+// Check the feed to make sure it is a valid URL using Regex
+app.use(checkFeedUrl);
 
 // Rate limiter config (upstash/ratelimit)
 const ratelimit = new Ratelimit({
@@ -28,7 +19,7 @@ const ratelimit = new Ratelimit({
   limiter: Ratelimit.slidingWindow(30, '1 h')
 });
 
-app.use(checkFeedUrl);
+// Check for valid API key, block if no valid key
 app.use(checkApiKey);
   
 // Middleware function to handle rate limiting and request processing
