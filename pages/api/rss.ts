@@ -62,12 +62,13 @@ app.get('/api/rss', async (req, res, next) => {
   // Check if the request is from a paid user
   if ((req as any).isPaidUser) {
     try {
-      // Validate the feed parameter
-      isValidFeed(req.query.feed as string);
-      // Proceed with handling the request
-      handleRequest(req, res, next);
+        const feed = req.query.feed as string;
+        //validate the feed
+        validateFeed(feed);
+        // Proceed with handling the request
+        handleRequest(req, res, next);
     } catch (error) {
-      next(new InvalidFeedParameterError());
+        next(new InvalidFeedParameterError());
     }
   } else {
     next(new InvalidApiKeyError());
