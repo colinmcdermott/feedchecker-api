@@ -5,10 +5,10 @@ import { Redis } from '@upstash/redis';
 const NodeCache = require('node-cache');
 import { MissingFeedParameterError, InvalidFeedParameterError, InvalidApiKeyError, FetchError } from './customerror'
 import checkApiKey from './checkApiKey';
+import { validateFeed } from './feedValidator'
 
 const app = express();
 const feedSizeCache = new NodeCache({ stdTTL: 14400 /* seconds */ });
-const feedRegex = new RegExp(/^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/);
 
 // Rate limiter config (upstash/ratelimit)
 const ratelimit = new Ratelimit({
@@ -22,6 +22,7 @@ app.use(checkApiKey);
 const handleRequest = async (req: Request, res: Response, next: NextFunction) => {
   const feed = req.query.feed as string;
   try {
+    validateFeed(feed);
     const size = await getFeedSize(feed);
     const storedSize = feedSizeCache.get(feed);
     const sizeChanged = storedSize !== size;
@@ -60,8 +61,14 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 app.get('/api/rss', async (req, res, next) => {
   // Check if the request is from a paid user
   if ((req as any).isPaidUser) {
-    // Proceed with handling the request
-    handleRequest(req, res, next);
+    try {
+      // Validate the feed parameter
+      isValidFeed(req.query.feed as string);
+      // Proceed with handling the request
+      handleRequest(req, res, next);
+    } catch (error) {
+      next(new InvalidFeedParameterError());
+    }
   } else {
     next(new InvalidApiKeyError());
   }
