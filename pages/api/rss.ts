@@ -46,10 +46,10 @@ const checkApiKey = (req: Request, res: Response, next: NextFunction) => {
   }
   const feed = req.query.feed as string;
   if (!feed) {
-    throw new CustomError('Missing "feed" query parameter', 400);
+    throw new CustomError('Missing feed parameter', 400);
   }
   if (!feedRegex.test(feed)) {
-    throw new CustomError('Invalid "feed" query parameter, it should be a valid URL', 400);
+    throw new CustomError('Invalid feed parameter, should be a valid URL', 400);
   }
   next();
 };
