@@ -1,34 +1,33 @@
 class MissingFeedParameterError extends Error {
+    statusCode = 400;
     constructor() {
       super('Missing feed parameter');
       this.name = 'MissingFeedParameterError';
-      this.statusCode = 400;
     }
   }
   
   class InvalidFeedParameterError extends Error {
+    statusCode = 400;
     constructor() {
       super('Invalid feed parameter');
       this.name = 'InvalidFeedParameterError';
-      this.statusCode = 400;
     }
   }
   
   class InvalidApiKeyError extends Error {
+    statusCode = 401;
     constructor() {
       super('Invalid API key');
       this.name = 'InvalidApiKeyError';
-      this.statusCode = 401;
     }
   }
   
   class FetchError extends Error {
+    statusCode = 500;
     constructor() {
       super('Error fetching feed size or WebSub/Google Ping APIs');
       this.name = 'FetchError';
-      this.statusCode = 500;
     }
   }
   
-  export { MissingFeedParameterError, InvalidFeedParameterError, InvalidApiKeyError, FetchError };
-  
+  export { MissingFeedParameterError, InvalidFeedParameterError, InvalidApiKeyError, FetchError };  
