@@ -13,6 +13,7 @@ class CustomError extends Error {
 
 const app = express();
 const feedSizeCache = new NodeCache({ stdTTL: 14400 /* seconds */ });
+const feedRegex = new RegExp(/^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/);
 
 // Rate limiter config (upstash/ratelimit)
 const ratelimit = new Ratelimit({
@@ -48,11 +49,14 @@ const checkApiKey = (req: Request, res: Response, next: NextFunction) => {
 
 app.use(checkApiKey);
 
-// Middleware function to handle rate limiting and request processing
+// Middleware function to handle rate limiting and request processing + Feed regex check
 const handleRequest = async (req: Request, res: Response, next: NextFunction) => {
   const feed = req.query.feed as string;
   if (!feed) {
-    throw new CustomError('Missing "feed" query parameter', 400);
+    throw new CustomError('Missing feed query parameter', 400);
+  }
+  if (!feedRegex.test(feed)) {
+    throw new CustomError('Invalid feed query parameter, should be a valid URL', 400);
   }
   try {
     const size = await getFeedSize(feed);
@@ -88,13 +92,11 @@ app.get('/api/rss', async (req, res, next) => {
 // Centralized error handling middleware
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   if (err instanceof CustomError) {
-    res.status(err.statusCode).json({ error: err.message });
+    res.status(err.statusCode).send({ error: err.message });
   } else {
-    console.error(err);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).send({ error: 'Internal server error' });
   }
 });
-    
 
 const getFeedSize = async (feed: string) => {
   const sizeResponse = await fetch(`https://nodefeedv.vercel.app/api/size?feed=${feed}`);
