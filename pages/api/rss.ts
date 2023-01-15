@@ -96,7 +96,7 @@ app.get('/api/rss', async (req, res, next) => {
     // Proceed with handling the request
     handleRequest(req, res, next);
   } else {
-    next(new CustomError('Unauthorized', 401));
+    next(new InvalidApiKeyError());
   }
 });
   
