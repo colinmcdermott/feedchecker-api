@@ -10,7 +10,7 @@ import { checkFeedUrl } from './feedcheck';
 const app = express();
 const feedSizeCache = new NodeCache({ stdTTL: 14400 /* seconds */ });
 
-// Check the feed parameter is a valid URL using Regex, error if not
+// Check the feed parameter is a valid URL using Regex
 app.use(checkFeedUrl);
 
 // Rate limiter config (upstash/ratelimit)
