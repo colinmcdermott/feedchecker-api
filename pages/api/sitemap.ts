@@ -1,4 +1,5 @@
 // Sitemap.ts - modified version of rss.ts - Ping Google Search Console only
+// Removes WebSub ping from request handling middleware, WebSub JSON response, and WebSub CONST at end of file
 
 import express, { Request, Response, NextFunction } from 'express';
 import fetch from 'isomorphic-unfetch';
