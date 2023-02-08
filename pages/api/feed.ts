@@ -1,17 +1,9 @@
 import express, { Request, Response, NextFunction } from 'express';
 import fetch from 'isomorphic-unfetch';
-import { Ratelimit } from '@upstash/ratelimit';
-import { Redis } from '@upstash/redis';
 const NodeCache = require('node-cache');
 
 const app = express();
 const feedSizeCache = new NodeCache({ stdTTL: 14400 /* seconds */ });
-
-// Rate limiter config (upstash/ratelimit)
-const ratelimit = new Ratelimit({
-  redis: Redis.fromEnv(),
-  limiter: Ratelimit.slidingWindow(30, '1 h')
-});
 
 const apiKeys = ['U6M05O7nQabjMlGdJuo9UiSxFrgYdTak', 'tZ07kgxshMNtd2GLqqlr6FuquArxLGy1'];
 
@@ -86,12 +78,12 @@ app.get('/api/feed', async (req, res, next) => {
 });
 
 const getFeedSize = async (feed: string) => {
-  const sizeResponse = await fetch(`https://nodefeedv.vercel.app/api/size?feed=${feed}`);
+  const sizeResponse = await fetch(`/api/size?feed=${feed}`);
   return (await sizeResponse.json()).size;
 }
 
 const fetchWebSubAPI = async (feed: string) => {
-  const response = await fetch(`https://nodefeedv.vercel.app/api/websub-ping?feed=${feed}`);
+  const response = await fetch(`/api/websub-ping?feed=${feed}`);
   return response.ok;
 }
 
