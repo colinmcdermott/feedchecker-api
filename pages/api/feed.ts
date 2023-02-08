@@ -72,12 +72,12 @@ handleRequest(req, res, next);
 });
 
 const getFeedSize = async (feed: string) => {
-const sizeResponse = await fetch(`/api/size?feed=${feed}`);
+const sizeResponse = await fetch(`https://feedchecker-api.vercel.app/api/size?feed=${feed}`);
 return (await sizeResponse.json()).size;
 }
 
 const fetchWebSubAPI = async (feed: string) => {
-const response = await fetch(`/api/websub-ping?feed=${feed}`);
+const response = await fetch(`https://feedchecker-api.vercel.app/api/websub-ping?feed=${feed}`);
 return response.ok;
 }
 
