@@ -33,7 +33,7 @@ const checkApiKey = (req: Request, res: Response, next: NextFunction) => {
 
 app.use(checkApiKey);
 
-// Middleware function to handle rate limiting and request processing
+// Middleware function to handle request processing
 const handleRequest = async (req: Request, res: Response, next: NextFunction) => {
   const feed = req.query.feed as string;
   if (!feed) {
@@ -61,35 +61,29 @@ const handleRequest = async (req: Request, res: Response, next: NextFunction) =>
 };
 
 app.get('/api/feed', async (req, res, next) => {
-  // Check if the request is from a paid user
-  if ((req as any).isPaidUser) {
-    // Proceed with handling the request
-    handleRequest(req, res, next);
-  } else {
-    // Check if the request exceeds the rate limit
-    const identifier = req.headers['cf-connecting-ip'] as string;
-    const response = await ratelimit.limit(identifier);
-    if (!response.success) {
-      return res.status(429).send('Too many requests');
-    }
-    // Proceed with handling the request
-    handleRequest(req, res, next);
-  }
+// Check if the request is from a paid user
+if ((req as any).isPaidUser) {
+// Proceed with handling the request
+handleRequest(req, res, next);
+} else {
+// Proceed with handling the request
+handleRequest(req, res, next);
+}
 });
 
 const getFeedSize = async (feed: string) => {
-  const sizeResponse = await fetch(`/api/size?feed=${feed}`);
-  return (await sizeResponse.json()).size;
+const sizeResponse = await fetch(/api/size?feed=${feed});
+return (await sizeResponse.json()).size;
 }
 
 const fetchWebSubAPI = async (feed: string) => {
-  const response = await fetch(`/api/websub-ping?feed=${feed}`);
-  return response.ok;
+const response = await fetch(/api/websub-ping?feed=${feed});
+return response.ok;
 }
 
 const fetchGooglePingAPI = async (feed: string) => {
-  const response = await fetch(`https://www.google.com/ping?sitemap=${feed}`);
-  return response.ok;
+const response = await fetch(https://www.google.com/ping?sitemap=${feed});
+return response.ok;
 }
 
 export default app;
